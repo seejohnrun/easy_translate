@@ -93,9 +93,9 @@ module EasyTranslate
     raise ArgumentError.new('no string given') if text.empty?
     key =  options[:key] || @api_key || nil
     params = "v=#{API_VERSION}"
-    params << '&userip=' << options[:user_ip] if options.has_key?(:user_ip)
-    params << '&hl=' << get_language(options[:host_language]) if options.has_key?(:host_language)
-    params << '&key=' << key if key
+    params << '&userip=' << URI.escape(options[:user_ip]) if options.has_key?(:user_ip)
+    params << '&hl=' << URI.escape(get_language(options[:host_language])) if options.has_key?(:host_language)
+    params << '&key=' << URI.escape(key) if key
     # key is standard - but left to individual methods
     params
   end

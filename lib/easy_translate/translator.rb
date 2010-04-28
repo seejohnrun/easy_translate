@@ -18,33 +18,7 @@ module EasyTranslate
     json = api_call "#{API_DETECT_PATH}?#{base_params(text, options)}&q=#{URI.escape text}"
     json['responseData']['language']
   end
-    
-  # Translate a string using Google Translate
-  # Optional parameters:
-  #   :key - API key for google language (defaults to nil)
-  #   :host_language - language (defaults to 'en') (symbol/string)
-  #   :user_ip - the ip of the end user - will help not be mistaken for abuse
-  #   :from - the language to translate from (symbol/string)
-  #   :html - boolean indicating whether the text you're translating is HTML or plaintext
-  # Required Parameters:
-  #   the text to translate
-  #   :to - the language to translate to (symbol/string)
-  # Returns:
-  #   the translated string
-  def self.translate(text, options)
-    # translate params if necessary
-    to_lang = get_language(options[:to])
-    from_lang = get_language(options[:from])
-    # make the call
-    path = "#{API_TRANSLATE_PATH}?#{base_params(text, options)}"
-    path << '&format=' << (options[:html] ? 'html' : 'text')
-    path << '&q=' << URI.escape(text)
-    path << '&langpair=' << URI.escape("#{from_lang}|#{to_lang}")
-    # get the proper response and return
-    json = api_call path
-    json['responseData']['translatedText']
-  end
-  
+      
   # Translate batches of string using Google Translate
   # Optional parameters:
   #   :key - API key for google language (defaults to nil)
@@ -56,8 +30,13 @@ module EasyTranslate
   #   the text(s) to translate (string/array)
   #   :to - the language(s) to translate to (symbol/string/array)
   # Returns:
-  #   an array of the translated strings
-  def self.translate_batch(text, options)
+  #   string / an array of the translated strings
+  def self.translate(text, options)
+    # TODO failing because we run options[:to] through get langauge and it strips it to nil
+    
+    # what type of call is this?
+    multi_call = options[:to].class == Array || text.class == Array
+    all_multi_call = options[:to].class == Array && text.class == Array
     # translate params if necessary
     to_lang = (options[:to].class == Array) ? options[:to].map { |to| get_language(to) } : get_language(options[:to])
     from_lang = get_language(options[:from])
@@ -67,17 +46,23 @@ module EasyTranslate
     # for each to language, put all of the q's
     to_lang.each do |tol|
       escaped_lang_pair = URI.escape "#{from_lang}|#{tol}"
-      text.each do |t| 
+      text.each do |t|
         path << "&q=#{URI.escape t}"
         path << "&langpair=#{escaped_lang_pair}"
       end
     end
+    # TODO cleanup    
     # get the proper response and return
     json = api_call path
-    if json['responseData'].class == Array
-      translations = json['responseData'].map { |j| j['responseData']['translatedText'] }
+    # single argument is returned
+    if !multi_call
+      single_single(json)
+    # array should be returned
+    elsif multi_call && !all_multi_call
+      single_multiple(json)
+    # the big badass case
     else
-      [json['responseData']['translatedText']]
+      multiple_multiple(json, options[:to].count)
     end
   end
   
@@ -86,6 +71,30 @@ module EasyTranslate
   end
   
   private
+
+  def self.multiple_multiple(json, translation_count)
+    if json['responseData'].class == Hash
+      [[json['responseData']['translatedText']]]
+    else
+      translations = []
+      responseData = json['responseData'].map { |r| r['responseData']['translatedText'] }
+      per_bucket = responseData.count / translation_count # should always be integer
+      0.upto(translation_count - 1) { |i| translations[i] = responseData.slice(i * per_bucket, per_bucket) }
+    end
+    translations
+  end
+  
+  def self.single_multiple(json)
+    if json['responseData'].class == Hash
+      [json['responseData']['translatedText']]
+    else
+      json['responseData'].map { |j| j['responseData']['translatedText'] }
+    end
+  end
+  
+  def self.single_single(json)
+    json['responseData']['translatedText']
+  end
   
   # take in the base parameters for the google translate api
   def self.base_params(text, options)
@@ -113,7 +122,9 @@ module EasyTranslate
   # can take -- :english, 'english', :en, 'en'
   def self.get_language(lang)
     lang = lang.to_s
-    LANGUAGES.include?(lang) ? lang : LANGUAGES.index(lang)
+    lang = LANGUAGES.include?(lang) ? lang : LANGUAGES.index(lang)
+    raise ArgumentError.new('please supply a valid language') unless lang
+    lang
   end
   
 end

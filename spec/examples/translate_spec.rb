@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe 'translate' do
@@ -40,7 +41,7 @@ describe 'translate' do
     text = 'Hello, world'
     lambda do
       EasyTranslate.translate(text, :to => 'fake')
-    end.should raise_error(EasyTranslateException, 'invalid translation language pair')
+    end.should raise_error(ArgumentError, 'please supply a valid language')
   end
   
   it 'should raise an error given no string' do

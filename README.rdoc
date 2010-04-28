@@ -18,13 +18,13 @@ I looked around a bit for a google translate library in Ruby that would perform 
 ===Batch translation (Yay!)
 
 	# multiple strings
-	EasyTranslate.translate_batch(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
+	EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
 
 	# multiple languages
-	EasyTranslate.translate_batch('Hello', :to => :spanish, :french) # => ["¡Hola", "Bonjour"]
+	EasyTranslate.translate('Hello', :to => [:spanish, :french]) # => ["¡Hola", "Bonjour"]
 
 	# or both?
-	EasyTranslate.translate_batch(['Hello', 'Goodbye'], :to => [:es, :it]) # => ['¡Hola', 'Despedida', 'Ciao', 'Addio']
+	EasyTranslate.translate(['Hello', 'Goodbye'], :to => [:es, :it]) # => [['¡Hola', 'Despedida'], ['Ciao', 'Addio']]
 
 ---
 

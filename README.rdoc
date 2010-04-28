@@ -33,7 +33,7 @@ I looked around a bit for a google translate library in Ruby that would perform 
 	# make google happy - (NOTE: use these anywhere)
 	EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx', :user_ip => '127.0.0.1')
 
-	# don't want to set the key on every call? \*Me either!*
+	# don't want to set the key on every call? ** Me either! **
 	EasyTranslate.api_key = 'xxx'
 
 ---

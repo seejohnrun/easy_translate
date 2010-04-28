@@ -13,12 +13,9 @@ I looked around a bit for a google translate library in Ruby that would perform 
 	# feel free to specify explicitly 
 	EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hello, world"
 
-	# make google happy - (NOTE: use these anywhere)
-	EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx', :user_ip => '127.0.0.1')
-
 ---
 
-===Batch translation
+===Batch translation (Yay!)
 
 	# multiple strings
 	EasyTranslate.translate_batch(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
@@ -31,12 +28,20 @@ I looked around a bit for a google translate library in Ruby that would perform 
 
 ---
 
+===Compliance
+
+# make google happy - (NOTE: use these anywhere)
+EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx', :user_ip => '127.0.0.1')
+
+# don't want to set the key on every call? _Me either!_
+EasyTranslate.api_key = 'xxx'
+
+---
+
 ===Because you might be greedy and want detection, too
 
 	# detect language
 	EasyTranslate.detect "This is definitely English!" # => 'en'
-
----
 
 ===What if everything is buried in html?
 
@@ -57,7 +62,7 @@ I looked around a bit for a google translate library in Ruby that would perform 
 ===Coming Soon
 
 * Transliteration support
-* Provide chunking for large batched calls
+* Provide behind the scenes chunking for large batched calls
 
 ---
 

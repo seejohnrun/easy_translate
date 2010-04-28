@@ -43,6 +43,11 @@ I looked around a bit for a google translate library in Ruby that would perform 
 	# mention that you're submitting HTML (translate calls only)
 	EasyTranslate.translate("<b>Hello</b>", :html => true) # => "<b>¡Hola</b>"
 
+===List of languages
+
+	# list from <http://translate.google.com/>
+	EasyTranslate::LANGUAGES # => { 'en' => 'english', ... }
+
 ---
 
 ===Author
@@ -52,6 +57,7 @@ I looked around a bit for a google translate library in Ruby that would perform 
 ===Coming Soon
 
 * Transliteration support
+* Provide chunking for large batched calls
 
 ---
 

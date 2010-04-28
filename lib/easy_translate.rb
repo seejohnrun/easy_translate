@@ -13,8 +13,6 @@ module EasyTranslate
   API_DETECT_PATH = '/ajax/services/language/detect'
   API_VERSION = '1.0'
   
-  API_KEY = nil
-  
   LANGUAGES = { 'tr' => 'turkish', 'sv' => 'swedish', 'km' => 'khmer', 
     'mk' => 'macedonian', 'chr' => 'cherokee', 'si' => 'sinhalese', 
     'zh-cn' => 'chinese_simplified', 'fi' => 'finnish', 'lo' => 'laothian', 

@@ -56,7 +56,7 @@ describe 'translate' do
 
   it 'should be able to provide an API key' do
     lambda do
-      EasyTranslate.API_KEY = 'key'
+      EasyTranslate.api_key = 'key'
       EasyTranslate.translate('hello', :to => 'spanish')
     end.should raise_error(EasyTranslateException, 'invalid key')
   end
@@ -64,6 +64,17 @@ describe 'translate' do
   it 'should be able to provide an override API key' do
     lambda do
       EasyTranslate.translate('hello', :to => 'spanish', :key => 'override')
+    end.should raise_error(EasyTranslateException, 'invalid key')
+  end
+  
+  it 'should be able to hold onto a non-forced API key for multiple calls' do
+    EasyTranslate.api_key = 'key'
+    lambda do
+      EasyTranslate.translate('hello', :to => 'spanish')
+    end.should raise_error(EasyTranslateException, 'invalid key')
+    # and again
+    lambda do
+      EasyTranslate.translate('hello', :to => 'spanish')
     end.should raise_error(EasyTranslateException, 'invalid key')
   end
   

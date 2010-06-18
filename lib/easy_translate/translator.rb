@@ -15,7 +15,9 @@ module EasyTranslate
   #   This API (since it focuses more on tranlations/ease, does not return 
   #   confidence ratings)
   def self.detect(text, options = {})
-    json = api_call "#{API_DETECT_PATH}?#{base_params(text, options)}&q=#{URI.escape text}"
+    params = base_params(text, options)
+    params.add :q, URI.escape(text)
+    json = api_call API_DETECT_PATH, params, :type => :get
     json['responseData']['language']
   end
       
@@ -32,8 +34,6 @@ module EasyTranslate
   # Returns:
   #   string / an array of the translated strings
   def self.translate(text, options)
-    # TODO failing because we run options[:to] through get langauge and it strips it to nil
-    
     # what type of call is this?
     multi_call = options[:to].class == Array || text.class == Array
     all_multi_call = options[:to].class == Array && text.class == Array
@@ -41,19 +41,19 @@ module EasyTranslate
     to_lang = (options[:to].class == Array) ? options[:to].map { |to| get_language(to) } : get_language(options[:to])
     from_lang = get_language(options[:from])
     # make the call
-    path = "#{API_TRANSLATE_PATH}?#{base_params(text, options)}"
-    path << '&format=' << (options[:html] ? 'html' : 'text')
+    params = base_params(text, options)
+    params.add :format, (options[:html] ? 'html' : 'text')
     # for each to language, put all of the q's
     to_lang.each do |tol|
       escaped_lang_pair = URI.escape "#{from_lang}|#{tol}"
       text.each do |t|
-        path << "&q=#{URI.escape t}"
-        path << "&langpair=#{escaped_lang_pair}"
+        params.add :q, URI.escape(t)
+        params.add :langpair, escaped_lang_pair
       end
     end
     # TODO cleanup    
     # get the proper response and return
-    json = api_call path
+    json = api_call API_TRANSLATE_PATH, params, :type => :post
     # single argument is returned
     if !multi_call
       single_single(json)
@@ -62,7 +62,7 @@ module EasyTranslate
       single_multiple(json)
     # the big badass case
     else
-      multiple_multiple(json, options[:to].count)
+      multiple_multiple(json, options[:to].size)
     end
   end
   
@@ -78,7 +78,7 @@ module EasyTranslate
     else
       translations = []
       responseData = json['responseData'].map { |r| r['responseData']['translatedText'] }
-      per_bucket = responseData.count / translation_count # should always be integer
+      per_bucket = responseData.size / translation_count # should always be integer
       0.upto(translation_count - 1) { |i| translations[i] = responseData.slice(i * per_bucket, per_bucket) }
     end
     translations
@@ -101,23 +101,41 @@ module EasyTranslate
     raise ArgumentError.new('multiple :from not allowed') if options[:from] && options[:from].class == Array
     raise ArgumentError.new('no string given') if text.empty?
     key =  options[:key] || @api_key || nil
-    params = "v=#{API_VERSION}"
-    params << '&userip=' << URI.escape(options[:user_ip]) if options.has_key?(:user_ip)
-    params << '&hl=' << URI.escape(get_language(options[:host_language])) if options.has_key?(:host_language)
-    params << '&key=' << URI.escape(key) if key
+    params = ParamBuilder.new
+    params.add :v, API_VERSION
+    params.add :user_ip, URI.escape(options[:user_ip]) if options.has_key?(:user_ip)
+    params.add :hl, URI.escape(get_language(options[:host_language])) if options.has_key?(:host_language)
+    params.add :key, URI.escape(key) if key
     # key is standard - but left to individual methods
     params
   end
   
   # make a call to the api and throw an error on non-200 response
-  # TODO - expand error handling
-  def self.api_call(path)
-    response = Net::HTTP.get(API_URL, path)
-    json = JSON.parse(response)
-    raise EasyTranslateException.new(json['responseDetails']) unless json['responseStatus'] == 200
+  # TODO expand error handling
+  def self.api_call(path, params, options = {:type => :get})
+    response = case options[:type]
+      when :get ; api_get_call(path, params)
+      when :post ; api_post_call(path, params)
+      else ; ArgumentError.new('Bad HTTP type')
+    end
+    # if we got a response, use it - otherwise, fail town
+    json = JSON.parse(response) if response
+    raise EasyTranslateException.new(json['responseDetails']) unless json && json['responseStatus'] == 200
     json
   end
-  
+
+  def self.api_post_call(path, params)
+    http = Net::HTTP.new(API_URL)
+    response = http.post(path, params.to_s)
+    response.body if response
+  end
+    
+  def self.api_get_call(path, params)
+    http = Net::HTTP.new(API_URL)
+    response = http.get("#{path}?#{params.to_s}")
+    response.body if response
+  end
+      
   # a function used to get the lang code of any input.
   # can take -- :english, 'english', :en, 'en'
   def self.get_language(lang)
@@ -125,6 +143,27 @@ module EasyTranslate
     lang = LANGUAGES.include?(lang) ? lang : LANGUAGES.index(lang)
     raise ArgumentError.new('please supply a valid language') unless lang
     lang
+  end
+
+  # TODO separate into separate class and add some basic tests
+  class ParamBuilder
+
+    def initialize
+      @str = ''
+    end
+
+    def add(param, value)
+      if @str.empty?
+        @str << "#{param.to_s}=#{value}"
+      else
+        @str << "&#{param.to_s}=#{value}"
+      end
+    end
+
+    def to_s
+      @str
+    end
+    
   end
   
 end

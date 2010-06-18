@@ -2,6 +2,10 @@
 require File.dirname(__FILE__) + '/spec_helper'
 
 describe 'translate' do
+
+  before(:each) do
+    EasyTranslate.api_key = nil
+  end
   
   it 'should remain the same after calling translate' do
     text = 'hello'
@@ -77,6 +81,16 @@ describe 'translate' do
     lambda do
       EasyTranslate.translate('hello', :to => 'spanish')
     end.should raise_error(EasyTranslateException, 'invalid key')
+  end
+
+  it 'should be able to translate something really long, since it uses POST, and not GET' do
+    mystring = ''
+    f = File.open('spec/examples/sample/gettysburg.txt', 'r')
+    f.each_line { |line| mystring << line }
+    # try to translate
+    lambda do
+      EasyTranslate.translate(mystring, :to => :spanish)
+    end.should_not raise_error
   end
   
 end

@@ -17,7 +17,7 @@ module EasyTranslate
   def self.detect(text, options = {})
     params = base_params(text, options)
     params.add :q, URI.escape(text)
-    json = api_call API_DETECT_PATH, params, :type => :get
+    json = api_call EasyTranslate::API_DETECT_PATH, params, :type => :get
     json['responseData']['language']
   end
       
@@ -46,6 +46,8 @@ module EasyTranslate
     # for each to language, put all of the q's
     to_lang.each do |tol|
       escaped_lang_pair = URI.escape "#{from_lang}|#{tol}"
+      # because ruby let's us call .each on a string with newlines
+      text = [text] if text.is_a?(String) # sorry, TODO separate
       text.each do |t|
         params.add :q, URI.escape(t)
         params.add :langpair, escaped_lang_pair
@@ -53,7 +55,7 @@ module EasyTranslate
     end
     # TODO cleanup    
     # get the proper response and return
-    json = api_call API_TRANSLATE_PATH, params, :type => :post
+    json = api_call EasyTranslate::API_TRANSLATE_PATH, params, :type => :post
     # single argument is returned
     if !multi_call
       single_single(json)
@@ -125,13 +127,13 @@ module EasyTranslate
   end
 
   def self.api_post_call(path, params)
-    http = Net::HTTP.new(API_URL)
+    http = Net::HTTP.new(EasyTranslate::API_URL)
     response = http.post(path, params.to_s)
     response.body if response
   end
     
   def self.api_get_call(path, params)
-    http = Net::HTTP.new(API_URL)
+    http = Net::HTTP.new(EasyTranslate::API_URL)
     response = http.get("#{path}?#{params.to_s}")
     response.body if response
   end
@@ -140,30 +142,9 @@ module EasyTranslate
   # can take -- :english, 'english', :en, 'en'
   def self.get_language(lang)
     lang = lang.to_s
-    lang = LANGUAGES.include?(lang) ? lang : LANGUAGES.index(lang)
+    lang = EasyTranslate::LANGUAGES.include?(lang) ? lang : EasyTranslate::LANGUAGES.index(lang)
     raise ArgumentError.new('please supply a valid language') unless lang
     lang
-  end
-
-  # TODO separate into separate class and add some basic tests
-  class ParamBuilder
-
-    def initialize
-      @str = ''
-    end
-
-    def add(param, value)
-      if @str.empty?
-        @str << "#{param.to_s}=#{value}"
-      else
-        @str << "&#{param.to_s}=#{value}"
-      end
-    end
-
-    def to_s
-      @str
-    end
-    
   end
   
 end

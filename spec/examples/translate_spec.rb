@@ -92,5 +92,22 @@ describe 'translate' do
       EasyTranslate.translate(mystring, :to => :spanish)
     end.should_not raise_error
   end
+
+  it 'should be able to work with quotes' do
+    translation = EasyTranslate.translate("'hello'", :to => :english)
+    translation.should == "'hello'"
+  end
+
+  it 'should be able to work with double quotes' do
+    translation = EasyTranslate.translate('"hello"', :to => :english)
+    translation.should == '"hello"'
+  end
+
+  it 'should be able to handle to translate calls in succession without issue' do
+    lambda do
+      EasyTranslate.translate('hello', :to => :spanish)
+      EasyTranslate.translate('hello', :to => :spanish)
+    end.should_not raise_error
+  end
   
 end

@@ -1,13 +1,14 @@
 module EasyTranslate
-  
-  require 'easy_translate/translator'
-  
+
   require 'uri'
   require 'net/http'
   
   require 'rubygems'
   require 'json'
   
+  require 'easy_translate/param_builder'
+  require 'easy_translate/translator'
+    
   API_URL = 'ajax.googleapis.com'
   API_TRANSLATE_PATH = '/ajax/services/language/translate'
   API_DETECT_PATH = '/ajax/services/language/detect'

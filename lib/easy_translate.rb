@@ -13,34 +13,22 @@ module EasyTranslate
   API_TRANSLATE_PATH = '/ajax/services/language/translate'
   API_DETECT_PATH = '/ajax/services/language/detect'
   API_VERSION = '1.0'
-  
-  LANGUAGES = { 'tr' => 'turkish', 'sv' => 'swedish', 'km' => 'khmer', 
-    'mk' => 'macedonian', 'chr' => 'cherokee', 'si' => 'sinhalese', 
-    'zh-cn' => 'chinese_simplified', 'fi' => 'finnish', 'lo' => 'laothian', 
-    'da' => 'danish', 'th' => 'thai', 'sk' => 'slovak', 'sq' => 'albanian', 
-    'ms' => 'malay', 'no' => 'norwegian', '' => 'unknown', 'cy' => 'welsh', 
-    'be' => 'belarusian', 'am' => 'amharic', 'ca' => 'catalan', 
-    'zh' => 'chinese', 'id' => 'indonesian', 'ta' => 'tamil', 
-    'fa' => 'persian', 'zh-tw' => 'chinese_traditional', 'uz' => 'uzbek', 
-    'sw' => 'swahili', 'ja' => 'japanese', 'kk' => 'kazakh', 
-    'gl' => 'galician', 'ps' => 'pashto', 'lv' => 'latvian', 'te' => 'telugu',
-    'sa' => 'sanskrit', 'kn' => 'kannada', 'af' => 'afrikaans', 
-    'ka' => 'georgian', 'it' => 'italian', 'mr' => 'marathi', 'ug' => 'uighur',
-    'ro' => 'romanian', 'nl' => 'dutch', 'gu' => 'gujarati', 
-    'eo' => 'esperanto', 'uk' => 'ukrainian', 'ru' => 'russian', 
-    'ky' => 'kyrgyz', 'ga' => 'irish', 'tl' => 'tagalog', 'sr' => 'serbian', 
-    'pa' => 'punjabi', 'mt' => 'maltese', 'ne' => 'nepali', 'or' => 'oriya', 
-    'eu' => 'basque', 'dv' => 'dhivehi', 'sl' => 'slovenian', 
-    'pl' => 'polish', 'el' => 'greek', 'ku' => 'kurdish', 'de' => 'german', 
-    'iw' => 'hebrew', 'sd' => 'sindhi', 'et' => 'estonian', 'gn' => 'guarani',
-    'is' => 'icelandic', 'bn' => 'bengali', 'tl' => 'filipino', 
-    'bo' => 'tibetan', 'es' => 'spanish', 'fr' => 'french', 
-    'hy' => 'armenian', 'bg' => 'bulgarian', 'lt' => 'lithuanian', 
-    'mn' => 'mongolian', 'az' => 'azerbaijani', 'yi' => 'yiddish', 
-    'ur' => 'urdu', 'en' => 'english', 'pt-pt' => 'portuguese', 
-    'vi' => 'vietnamese', 'ml' => 'malayalam', 'ar' => 'arabic', 
-    'bh' => 'bihari', 'iu' => 'inuktitut', 'my' => 'burmese', 
-    'hu' => 'hungarian', 'ko' => 'korean', 'tg' => 'tajik', 'cs' => 'czech',
-    'hi' => 'hindi', 'hr' => 'croatian' }
+
+  LANGUAGES = { 'af' => 'afrikaans', 'sq' => 'albanian', 'ar' => 'arabic',
+    'hy' => 'armenian', 'az' => 'azerbaijani', 'eu' => 'basque', 'be' => 'belarusian',
+    'bg' => 'bulgarian', 'ca' => 'catalan', 'zh-CN' => 'chinese_simplified',
+    'zh-TW' => 'chinese_traditional', 'hr' => 'croatian', 'cs' => 'czech',
+    'da' => 'danish', 'nl' => 'dutch', 'en' => 'english', 'et' => 'estonian',
+    'tl' => 'filipino', 'fi' => 'finnish', 'fr' => 'french', 'gl' => 'galician',
+    'ka' => 'georgian', 'de' => 'german', 'el' => 'greek', 'ht' => 'haitian_creole',
+    'iw' => 'hebrew', 'hi' => 'hindi', 'hu' => 'hungarian', 'is' => 'icelandic',
+    'id' => 'indonesian', 'ga' => 'irish', 'it' => 'italian', 'ja' => 'japanese',
+    'ko' => 'korean', 'lv' => 'latvian', 'lt' => 'lithuanian', 'mk' => 'macedonian',
+    'ms' => 'malay', 'mt' => 'maltese', 'no' => 'norwegian', 'fa' => 'persian',
+    'pl' => 'polish', 'pt' => 'portuguese', 'ro' => 'romanian', 'ru' => 'russian',
+    'sr' => 'serbian', 'sk' => 'slovak', 'sl' => 'slovenian', 'es' => 'spanish',
+    'sw' => 'swahili', 'sv' => 'swedish', 'th' => 'thai', 'tr' => 'turkish',
+    'uk' => 'ukrainian', 'ur' => 'urdu', 'vi' => 'vietnamese', 'cy' => 'welsh',
+    'yi' => 'yiddish' }
   
 end

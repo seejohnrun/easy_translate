@@ -109,5 +109,12 @@ describe 'translate' do
       EasyTranslate.translate('hello', :to => :spanish)
     end.should_not raise_error
   end
-  
+
+  it 'should be able to translate into every language in the world' do
+    languages = EasyTranslate::LANGUAGES.keys
+    count = languages.size
+    translations = EasyTranslate.translate('hello', :from => :en, :to => languages)
+    translations.size.should == count
+  end
+    
 end

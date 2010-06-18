@@ -141,6 +141,7 @@ module EasyTranslate
   # a function used to get the lang code of any input.
   # can take -- :english, 'english', :en, 'en'
   def self.get_language(lang)
+    return unless lang
     lang = lang.to_s
     lang = EasyTranslate::LANGUAGES.include?(lang) ? lang : EasyTranslate::LANGUAGES.index(lang)
     raise ArgumentError.new('please supply a valid language') unless lang

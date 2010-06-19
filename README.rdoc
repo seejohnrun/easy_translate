@@ -59,11 +59,6 @@ I looked around a bit for a google translate library in Ruby that would perform 
 
 * John Crepezzi - <john@crepezzi.com[mailto:john@crepezzi.com]> / <john.crepezzi@patch.com[mailto:john.crepezzi@patch.com]>
 
-===Coming Soon
-
-* Transliteration support
-* Provide behind the scenes chunking for large batched calls
-
 ---
 
 ===License

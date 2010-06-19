@@ -1,0 +1,4 @@
+---
+- dogs: 'dogs'
+- cats: 'cats'
+- other: 'some other {{animal}}

@@ -44,6 +44,7 @@ module EasyTranslate
     params = base_params(text, options)
     params.add :format, (options[:html] ? 'html' : 'text')
     # for each to language, put all of the q's
+    to_lang = [to_lang] if to_lang.is_a?(String)
     to_lang.each do |tol|
       escaped_lang_pair = URI.escape "#{from_lang}|#{tol}"
       # because ruby let's us call .each on a string with newlines
@@ -137,13 +138,18 @@ module EasyTranslate
     response = http.get("#{path}?#{params.to_s}")
     response.body if response
   end
-      
+
+  def index_func
+    return @index_func if @index_func
+    Array.instance_methods.include?(:key) ? :key : :index
+  end
+  
   # a function used to get the lang code of any input.
   # can take -- :english, 'english', :en, 'en'
   def self.get_language(lang)
     return unless lang
     lang = lang.to_s
-    lang = EasyTranslate::LANGUAGES.include?(lang) ? lang : EasyTranslate::LANGUAGES.index(lang)
+    lang = EasyTranslate::LANGUAGES.include?(lang) ? lang : EasyTranslate::LANGUAGES.send(index_func, lang)
     raise ArgumentError.new('please supply a valid language') unless lang
     lang
   end

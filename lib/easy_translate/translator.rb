@@ -139,7 +139,7 @@ module EasyTranslate
     response.body if response
   end
 
-  def index_func
+  def self.index_func
     return @index_func if @index_func
     Array.instance_methods.include?(:key) ? :key : :index
   end

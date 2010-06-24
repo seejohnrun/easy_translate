@@ -1,9 +1,0 @@
----
-dogs: dogs
-cats: cats
-more:
-  fish: fish
-  human: human
-  other:
-    - street {{door}}
-    - door

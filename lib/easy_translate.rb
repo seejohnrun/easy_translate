@@ -8,9 +8,6 @@ module EasyTranslate
   
   require 'easy_translate/param_builder'
   require 'easy_translate/translator'
-
-  autoload :LocaleBase, 'easy_translate/locale_base'
-  autoload :YAML, 'yaml.rb'
   
   API_URL = 'ajax.googleapis.com'
   API_TRANSLATE_PATH = '/ajax/services/language/translate'

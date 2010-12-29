@@ -8,6 +8,7 @@ describe 'translate' do
   end
   
   it 'should remain the same after calling translate' do
+    EasyTranslate.api_key = nil
     text = 'hello'
     EasyTranslate.translate(text, :to => 'es')
     text.should == 'hello'
@@ -56,7 +57,7 @@ describe 'translate' do
   
   it 'should make round trips with html' do
     translation = EasyTranslate.translate('<b>hello</b>', :to => 'spanish', :html => true)
-    translation.should == "<b>¡Hola</b>"
+    translation.should == "<b>hola</b>"
   end
 
   it 'should be able to provide an API key' do

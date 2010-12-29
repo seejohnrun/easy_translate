@@ -1,6 +1,8 @@
 module EasyTranslate
   
-  attr_writer :api_key
+  class <<self
+    attr_accessor :api_key
+  end
 
   # Detect the language of a given string of text.
   # Optional parameters:
@@ -103,7 +105,7 @@ module EasyTranslate
   def self.base_params(text, options)
     raise ArgumentError.new('multiple :from not allowed') if options[:from] && options[:from].class == Array
     raise ArgumentError.new('no string given') if text.empty?
-    key =  options[:key] || @api_key || nil
+    key =  options[:key] || EasyTranslate.api_key || nil
     params = ParamBuilder.new
     params.add :v, API_VERSION
     params.add :user_ip, URI.escape(options[:user_ip]) if options.has_key?(:user_ip)

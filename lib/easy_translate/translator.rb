@@ -143,7 +143,7 @@ module EasyTranslate
 
   def self.index_func
     return @index_func if @index_func
-    Array.instance_methods.include?(:key) ? :key : :index
+    Hash.instance_methods.include?(:key) ? :key : :index
   end
   
   # a function used to get the lang code of any input.

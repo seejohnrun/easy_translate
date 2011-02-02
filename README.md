@@ -63,6 +63,13 @@ I looked around a bit for a google translate library in Ruby that would perform 
 
 ---
 
+### EasyTranslate in PHP
+
+[Kofel](https://github.com/Kofel) ported this library to PHP. 
+You can find the port at https://github.com/Kofel/EasyTranslate
+
+---
+
 ### Author
 
 * John Crepezzi - john.crepezzi@gmail.com

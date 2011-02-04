@@ -8,6 +8,15 @@ I looked around a bit for a google translate library in Ruby that would perform 
 
     $ gem install easy_translate
 
+For a simple ruby app, you may need to add these require statements:
+
+    require 'rubygems'
+    require 'easy_translate'
+
+If you have a Rails app, add this entry to your Gemfile:
+
+    gem 'easy_translate'
+
 ---
 
 ### Single translation

@@ -110,5 +110,10 @@ describe 'translate' do
       EasyTranslate.translate('hello', :to => :spanish)
     end.should_not raise_error
   end
+
+  it 'should be able to translate to korean' do
+    translation = EasyTranslate.translate('hello', :to => :korean)
+    EasyTranslate.translate(translation, :to => :english).should == 'Hi'
+  end
     
 end

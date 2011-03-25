@@ -44,6 +44,7 @@ module EasyTranslate
     'ga' => 'irish',
     'it' => 'italian',
     'ja' => 'japanese',
+    'ko' => 'korean',
     'lv' => 'latvian',
     'lt' => 'lithuanian',
     'mk' => 'macedonian',

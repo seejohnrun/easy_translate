@@ -36,11 +36,14 @@ module EasyTranslate
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = true
       # Construct the request
-      request = Net::HTTP::Post.new(uri.path)
+      request = Net::HTTP::Post.new(uri.request_uri)
       request.add_field('X-HTTP-Method-Override', 'GET')
-      request.set_form_data body
+      request.body = body
       # Fire and return
       response = http.request(request)
+      unless response.code == '200'
+        raise EasyTranslateException.new JSON.parse(response.body)['responseDetails']
+      end
       response.body
     end
 

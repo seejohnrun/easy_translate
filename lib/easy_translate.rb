@@ -3,18 +3,15 @@ require File.dirname(__FILE__) + '/easy_translate/translation'
 
 module EasyTranslate
 
+  autoload :EasyTranslateException, File.dirname(__FILE__) + '/easy_translate/easy_translate_exception'
   autoload :Request, File.dirname(__FILE__) + '/easy_translate/request'
   autoload :VERSION, File.dirname(__FILE__) + '/easy_translate/version'
 
   extend Detection # Language Detection
   extend Translation # Language Translation
 
-  def self.api_key=(api_key)
-    @api_key = api_key
-  end
-
-  def self.api_key
-    @api_key
+  class << self
+    attr_accessor :api_key
   end
 
 end

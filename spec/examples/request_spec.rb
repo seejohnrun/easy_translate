@@ -26,7 +26,7 @@ describe EasyTranslate::Request do
 
     it 'should include the key if given at the base' do
       EasyTranslate.api_key = 'abc'
-      request = EasyTranslate::Request.new('abc')
+      request = EasyTranslate::Request.new
       request.params[:key].should == 'abc'
     end
 

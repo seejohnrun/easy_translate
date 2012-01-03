@@ -11,16 +11,6 @@ describe EasyTranslate::Detection do
     lang.should == 'en'
   end
 
-  it 'should return multiple if given multiple - from doc' do
-    pending 'example from doc is not even valid JSON'
-    EasyTranslate::Detection::DetectionRequest.stub!(:new).and_return(OpenStruct.new({
-      :perform_raw => '{"data":{"detections":[[{"language":"en"}]]},"data":{"detections":[[{"language": "zh-TW"}]]}}',
-      :multi? => true
-    }))
-    lang = EasyTranslate.detect ['Hello world', 'woo']
-    lang.should == ['en', 'zh-TW']
-  end
-
   klass = EasyTranslate::Detection::DetectionRequest
   describe klass do
 

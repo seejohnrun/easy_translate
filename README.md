@@ -32,18 +32,14 @@ Or in your Gemfile:
     # multiple strings
     EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
 
-    # multiple languages
-    EasyTranslate.translate('Hello', :to => [:spanish, :french]) # => ["¡Hola", "Bonjour"]
-
-    # or both?
-    EasyTranslate.translate(['Hello', 'Goodbye'], :to => [:es, :it]) # => [['¡Hola', 'Despedida'], ['Ciao', 'Addio']]
+		EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
 
 ---
 
-### Compliance
+### API Keys
 
     # make google happy - (NOTE: use these anywhere)
-    EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx', :user_ip => '127.0.0.1')
+    EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx')
 
     # don't want to set the key on every call? ** Me either! **
     EasyTranslate.api_key = 'xxx'

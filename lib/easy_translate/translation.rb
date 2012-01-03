@@ -47,8 +47,8 @@ module EasyTranslate
       # @return [Hash] the params for the request
       def params
         params = super || {}
-        params[:source] = @source unless @source.nil?
-        params[:target] = @target unless @target.nil?
+        params[:source] = lang(@source) unless @source.nil?
+        params[:target] = lang(@target) unless @target.nil?
         params[:format] = @format unless @format.nil?
         params.merge! @options if @options
         params
@@ -73,6 +73,16 @@ module EasyTranslate
       end
 
       private
+
+      # Look up a language in the table (if needed)
+      def lang(orig)
+        look = orig.is_a?(String) ? orig : orig.to_s
+        return look if LANGUAGES[look] # shortcut iteration
+        if val = LANGUAGES.detect { |k, v| v == look }
+          return val.first
+        end
+        look
+      end
 
       # Set the HTML attribute, if true add a format
       # @param [Boolean] b - Whether or not the text supplied iS HTML

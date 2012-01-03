@@ -99,6 +99,31 @@ describe EasyTranslate::Translation do
         request.params[:api_key].should be_nil
       end
 
+      it 'should be able to supply a language as a string' do
+        request = klass.new('abc', :to => 'es')
+        request.params[:target].should == 'es'
+      end
+
+      it 'should be able to supply a language as a symbol' do
+        request = klass.new('abc', :to => :es)
+        request.params[:target].should == 'es'
+      end
+
+      it 'should be able to supply a language as a word' do
+        request = klass.new('abc', :to => 'spanish')
+        request.params[:target].should == 'es'
+      end
+
+      it 'should be able to supply a language as a word symbol' do
+        request = klass.new('abc', :to => :spanish)
+        request.params[:target].should == 'es'
+      end
+
+      it 'should fall back when a word is not in the lookup' do
+        request = klass.new('abc', :to => 'zzz')
+        request.params[:target].should == 'zzz'
+      end
+
     end
 
     describe :multi? do

@@ -1,4 +1,4 @@
-## EasyTranslate - Google Translate (with Bulk translate) in Ruby
+## EasyTranslate
 
 [![Build Status](https://secure.travis-ci.org/seejohnrun/easy_translate.png)](http://travis-ci.org/seejohnrun/easy_translate)
 

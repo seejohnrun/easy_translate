@@ -68,7 +68,7 @@ Or in your Gemfile:
 ### EasyTranslate in PHP
 
 [Kofel](https://github.com/Kofel) ported this library to PHP. 
-You can find the port at https://github.com/Kofel/EasyTranslate
+You can find the port [on GitHub](https://github.com/Kofel/EasyTranslate)
 
 ---
 

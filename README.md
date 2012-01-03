@@ -1,5 +1,7 @@
 ## EasyTranslate - Google Translate (with Bulk translate) in Ruby
 
+[![Build Status](https://secure.travis-ci.org/seejohnrun/easy_translate.png)](http://travis-ci.org/seejohnrun/easy_translate)
+
 I looked around a bit for a google translate library in Ruby that would perform bulk calls and handle user_ips and API keys properly.  There didn't seem to be any, so I made one.
 
 ---

@@ -31,9 +31,10 @@ module EasyTranslate
       def initialize(texts, options)
         self.texts = texts
         self.html = options.delete(:html)
-        @source = options.delete(:source)
-        @target = options.delete(:target)
+        @source = options.delete(:from)
+        @target = options.delete(:to)
         raise ArgumentError.new('No target language provded') unless @target
+        raise ArgumentError.new('Support for multiple targets dropped in V2') if @target.is_a?(Array)
         if options
           @options = options
           if replacement_api_key = @options.delete(:api_key)

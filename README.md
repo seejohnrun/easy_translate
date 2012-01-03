@@ -10,14 +10,9 @@ I looked around a bit for a google translate library in Ruby that would perform 
 
     $ gem install easy_translate
 
-If you're using Bundler:
+Or in your Gemfile:
 
     gem 'easy_translate'
-
-And if you're not:
-
-    require 'rubygems'
-    require 'easy_translate'
 
 ---
 

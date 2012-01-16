@@ -1,5 +1,6 @@
 require File.dirname(__FILE__) + '/easy_translate/detection'
 require File.dirname(__FILE__) + '/easy_translate/translation'
+require File.dirname(__FILE__) + '/easy_translate/translation_target'
 
 module EasyTranslate
 
@@ -11,6 +12,7 @@ module EasyTranslate
 
   extend Detection # Language Detection
   extend Translation # Language Translation
+  extend TranslationTarget # Language Translation Targets
 
   class << self
     attr_accessor :api_key

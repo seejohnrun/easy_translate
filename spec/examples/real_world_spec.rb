@@ -36,6 +36,19 @@ describe EasyTranslate do
       res.should == ['en', 'es']
     end
 
+  end
+
+  describe :translations_available_from do
+
+    it 'should be able to get a list of all' do
+      res = EasyTranslate.translations_available
+      res.should be_a Array
+    end
+
+    it 'should be able to get a list of all from es' do
+      res = EasyTranslate.translations_available('yi')
+      res.should be_a Array
+    end
 
   end
 

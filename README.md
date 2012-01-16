@@ -63,6 +63,14 @@ Or in your Gemfile:
     # list from <http://translate.google.com/>
     EasyTranslate::LANGUAGES # => { 'en' => 'english', ... }
 
+### List of supported languages
+
+    # List all languages (from API)
+    EasyTranslate.translations_available
+
+    # List all languages supported by some language
+    EasyTranslate.translations_available('zh-CN')
+
 ---
 
 ### EasyTranslate in PHP

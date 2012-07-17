@@ -26,14 +26,12 @@ module EasyTranslate
       # Set the texts and options
       # @param [String, Array] texts - The text (or texts) to translate
       # @param [Hash] options - Options to override or pass along with the request
-      def initialize(texts, options = nil)
-        self.texts = texts
-        if options
-          @options = options
-          if replacement_api_key = @options.delete(:api_key)
-            @options[:key] = replacement_api_key
-          end
+      def initialize(texts, options = {})
+        super(options)
+        if replacement_api_key = @options.delete(:api_key)
+          @options[:key] = replacement_api_key
         end
+        self.texts = texts
       end
 
       # The params for this request

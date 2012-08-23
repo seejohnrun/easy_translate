@@ -1,7 +1,7 @@
 script: "rspec spec"
 notifications:
   email:
-    - john.crepezzi@gmail.com
+    - vlad.zloteanu@dimelo.com
 branches:
   only:
     - master

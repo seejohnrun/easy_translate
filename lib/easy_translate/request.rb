@@ -5,9 +5,11 @@ require 'uri'
 module EasyTranslate
 
   class Request
+    attr_accessor :http_options
 
-    def initialize(options={})
+    def initialize(options={}, http_options={})
       @options = options
+      @http_options = http_options
     end
 
     # Body, blank by default
@@ -84,10 +86,6 @@ module EasyTranslate
       cert_store = OpenSSL::X509::Store.new
       cert_store.set_default_paths
       cert_store
-    end
-
-    def http_options
-      @options[:http] || {}
     end
 
     def ssl_options

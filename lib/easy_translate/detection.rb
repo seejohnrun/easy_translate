@@ -9,8 +9,8 @@ module EasyTranslate
     # @param [String, Array] texts - A single string or set of strings to detect for
     # @param [Hash] options - Extra options to pass along with the request
     # @return [String, Array] The resultant language or languages
-    def detect(texts, options = nil)
-      request = DetectionRequest.new(texts, options)
+    def detect(texts, options = nil, http_options={})
+      request = DetectionRequest.new(texts, options, http_options)
       # Turn the response into an array of detections
       raw = request.perform_raw
       detections = JSON.parse(raw)['data']['detections'].map do |res|
@@ -26,14 +26,12 @@ module EasyTranslate
       # Set the texts and options
       # @param [String, Array] texts - The text (or texts) to translate
       # @param [Hash] options - Options to override or pass along with the request
-      def initialize(texts, options = nil)
-        self.texts = texts
-        if options
-          @options = options
-          if replacement_api_key = @options.delete(:api_key)
-            @options[:key] = replacement_api_key
-          end
+      def initialize(texts, options = {}, http_options = {})
+        super(options, http_options)
+        if replacement_api_key = @options.delete(:api_key)
+          @options[:key] = replacement_api_key
         end
+        self.texts = texts
       end
 
       # The params for this request

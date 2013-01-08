@@ -64,6 +64,24 @@ describe EasyTranslate::Detection do
       end
 
     end
+
+    describe :options do
+
+      it 'should accept timeouts options' do
+        request = EasyTranslate::Detection::DetectionRequest.new "test", {}, {:timeout => 1, :open_timeout => 2}
+        http = request.send(:http)
+        http.open_timeout.should == 2
+        http.read_timeout.should == 1
+      end
+
+      it 'should accept ssl options' do
+        request = EasyTranslate::Detection::DetectionRequest.new "test", {}, {:ssl => {:verify_depth => 3, :ca_file => 'path/to/ca/file'}}
+        http = request.send(:http)
+        http.verify_depth.should == 3
+        http.ca_file.should == 'path/to/ca/file'
+      end
+
+    end
     
     describe :multi? do
 

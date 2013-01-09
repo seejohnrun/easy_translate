@@ -5,6 +5,12 @@ require 'uri'
 module EasyTranslate
 
   class Request
+    attr_accessor :http_options
+
+    def initialize(options={}, http_options={})
+      @options = options
+      @http_options = http_options
+    end
 
     # Body, blank by default
     # @return [String] The body for this request
@@ -30,11 +36,6 @@ module EasyTranslate
     # Perform the given request
     # @return [String] The response String
     def perform_raw
-      # Get the URI
-      uri = URI.parse("https://www.googleapis.com#{path}?#{param_s}")
-      # Open the HTTP object
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
       # Construct the request
       request = Net::HTTP::Post.new(uri.request_uri)
       request.add_field('X-HTTP-Method-Override', 'GET')
@@ -49,6 +50,47 @@ module EasyTranslate
     end
 
     private
+
+    def uri
+      @uri ||= URI.parse("https://www.googleapis.com#{path}?#{param_s}")
+    end
+
+    def http
+      @http ||= Net::HTTP.new(uri.host, uri.port).tap do |http|
+        configure_timeouts(http)
+        configure_ssl(http)
+      end
+    end
+
+    def configure_timeouts(http)
+      http.read_timeout = http.open_timeout = http_options[:timeout] if http_options[:timeout]
+      http.open_timeout = http_options[:open_timeout]                if http_options[:open_timeout]
+    end
+
+    def configure_ssl(http)
+      http.use_ssl      = true
+      http.verify_mode  = OpenSSL::SSL::VERIFY_PEER
+      http.cert_store   = ssl_cert_store
+
+      http.cert         = ssl_options[:client_cert]  if ssl_options[:client_cert]
+      http.key          = ssl_options[:client_key]   if ssl_options[:client_key]
+      http.ca_file      = ssl_options[:ca_file]      if ssl_options[:ca_file]
+      http.ca_path      = ssl_options[:ca_path]      if ssl_options[:ca_path]
+      http.verify_depth = ssl_options[:verify_depth] if ssl_options[:verify_depth]
+      http.ssl_version  = ssl_options[:version]      if ssl_options[:version]
+    end
+
+    def ssl_cert_store
+      return ssl_options[:cert_store] if ssl_options[:cert_store]
+      # Use the default cert store by default, i.e. system ca certs
+      cert_store = OpenSSL::X509::Store.new
+      cert_store.set_default_paths
+      cert_store
+    end
+
+    def ssl_options
+      http_options[:ssl] || {}
+    end
 
     # Stringify the params
     # @return [String] The params as a string

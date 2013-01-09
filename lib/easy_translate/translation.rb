@@ -11,8 +11,8 @@ module EasyTranslate
     # @option options [String, Symbol] :target - The target language (required)
     # @option options [Boolean] :html - Whether or not the supplied string is HTML (optional)
     # @return [String, Array] Translated text or texts
-    def translate(texts, options = {})
-      request = TranslationRequest.new(texts, options)
+    def translate(texts, options = {}, http_options={})
+      request = TranslationRequest.new(texts, options, http_options)
       # Turn the response into an array of translations 
       raw = request.perform_raw
       translations = JSON.parse(raw)['data']['translations'].map do |res|
@@ -28,13 +28,14 @@ module EasyTranslate
       # Set the texts and options
       # @param [String, Array] texts - the text (or texts) to translate
       # @param [Hash] options - Options to override or pass along with the request
-      def initialize(texts, options)
+      def initialize(texts, options, http_options={})
         self.texts = texts
         self.html = options.delete(:html)
         @source = options.delete(:from)
         @target = options.delete(:to)
         raise ArgumentError.new('No target language provded') unless @target
         raise ArgumentError.new('Support for multiple targets dropped in V2') if @target.is_a?(Array)
+        @http_options = http_options
         if options
           @options = options
           if replacement_api_key = @options.delete(:api_key)

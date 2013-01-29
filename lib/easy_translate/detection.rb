@@ -1,4 +1,5 @@
 require 'json'
+require 'cgi'
 require File.dirname(__FILE__) + '/request'
 
 module EasyTranslate
@@ -51,7 +52,7 @@ module EasyTranslate
       # The body for the request
       # @return [String] the body for the request, URL escaped
       def body
-        @texts.map { |t| "q=#{URI.escape(t)}" }.join '&'
+        @texts.map { |t| "q=#{CGI::escape(t)}" }.join '&'
       end
 
       # Whether or not this was a request for multiple texts

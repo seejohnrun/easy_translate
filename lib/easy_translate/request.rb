@@ -7,7 +7,7 @@ module EasyTranslate
   class Request
     attr_accessor :http_options
 
-    def initialize(options={}, http_options={})
+    def initialize(options = {}, http_options = {})
       @options = options
       @http_options = http_options
     end

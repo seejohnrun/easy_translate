@@ -1,4 +1,5 @@
 require 'json'
+require 'cgi'
 require File.dirname(__FILE__) + '/request'
 
 module EasyTranslate
@@ -9,7 +10,7 @@ module EasyTranslate
     # @param [String, Array] texts - A single string or set of strings to detect for
     # @param [Hash] options - Extra options to pass along with the request
     # @return [String, Array] The resultant language or languages
-    def detect(texts, options = nil, http_options={})
+    def detect(texts, options = {}, http_options = {})
       request = DetectionRequest.new(texts, options, http_options)
       # Turn the response into an array of detections
       raw = request.perform_raw
@@ -51,7 +52,7 @@ module EasyTranslate
       # The body for the request
       # @return [String] the body for the request, URL escaped
       def body
-        @texts.map { |t| "q=#{URI.escape(t)}" }.join '&'
+        @texts.map { |t| "q=#{CGI::escape(t)}" }.join '&'
       end
 
       # Whether or not this was a request for multiple texts

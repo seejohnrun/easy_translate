@@ -1,8 +1,8 @@
 module EasyTranslate
 
-  LANGUAGES = { 
+  LANGUAGES = {
     'af' => 'afrikaans',
-    'sq' => 'albanian', 
+    'sq' => 'albanian',
     'ar' => 'arabic',
     'be' => 'belarusian',
     'bg' => 'bulgarian',

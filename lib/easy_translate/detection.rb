@@ -72,7 +72,7 @@ module EasyTranslate
         else
           @multi = true
           @texts = texts
-        end 
+        end
       end
 
     end

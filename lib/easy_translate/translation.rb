@@ -12,9 +12,9 @@ module EasyTranslate
     # @option options [String, Symbol] :target - The target language (required)
     # @option options [Boolean] :html - Whether or not the supplied string is HTML (optional)
     # @return [String, Array] Translated text or texts
-    def translate(texts, options = {}, http_options={})
+    def translate(texts, options = {}, http_options = {})
       request = TranslationRequest.new(texts, options, http_options)
-      # Turn the response into an array of translations 
+      # Turn the response into an array of translations
       raw = request.perform_raw
       translations = JSON.parse(raw)['data']['translations'].map do |res|
         res['translatedText']
@@ -25,11 +25,11 @@ module EasyTranslate
 
     # A convenience class for wrapping a translation request
     class TranslationRequest < EasyTranslate::Request
-      
+
       # Set the texts and options
       # @param [String, Array] texts - the text (or texts) to translate
       # @param [Hash] options - Options to override or pass along with the request
-      def initialize(texts, options, http_options={})
+      def initialize(texts, options, http_options = {})
         self.texts = texts
         self.html = options.delete(:html)
         @source = options.delete(:from)

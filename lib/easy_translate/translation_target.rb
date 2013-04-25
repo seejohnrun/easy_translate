@@ -22,8 +22,7 @@ module EasyTranslate
       def initialize(target = nil, options = nil)
         super(options)
         @target = target
-        if options
-          @options = options
+        if @options
           if replacement_api_key = @options.delete(:api_key)
             @options[:key] = replacement_api_key
           end

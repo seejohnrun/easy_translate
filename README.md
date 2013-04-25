@@ -85,6 +85,9 @@ You can find the port [on GitHub](https://github.com/Kofel/EasyTranslate)
 * John Crepezzi - john.crepezzi@gmail.com
 * Guy Maliar - gmaliar@gmail.com
 
+Full contributor data at:
+https://github.com/seejohnrun/easy_translate/contributors
+
 ---
 
 ### License

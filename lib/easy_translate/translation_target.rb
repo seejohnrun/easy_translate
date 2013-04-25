@@ -20,6 +20,7 @@ module EasyTranslate
     class TranslationTargetRequest < EasyTranslate::Request
 
       def initialize(target = nil, options = nil)
+        super(options)
         @target = target
         if options
           @options = options

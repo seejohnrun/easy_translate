@@ -10,7 +10,7 @@ module EasyTranslate
     # @param [String, Array] texts - A single string or set of strings to detect for
     # @param [Hash] options - Extra options to pass along with the request
     # @return [String, Array] The resultant language or languages
-    def detect(texts, options = {}, http_options={})
+    def detect(texts, options = {}, http_options = {})
       request = DetectionRequest.new(texts, options, http_options)
       # Turn the response into an array of detections
       raw = request.perform_raw

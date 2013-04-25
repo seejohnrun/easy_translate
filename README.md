@@ -84,6 +84,10 @@ You can find the port [on GitHub](https://github.com/Kofel/EasyTranslate)
 
 * John Crepezzi - john.crepezzi@gmail.com
 
+### Contributers and Maintainers
+
+* Guy Maliar - gmaliar@gmail.com
+
 ---
 
 ### License

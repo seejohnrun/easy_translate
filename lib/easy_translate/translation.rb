@@ -34,7 +34,7 @@ module EasyTranslate
         self.html = options.delete(:html)
         @source = options.delete(:from)
         @target = options.delete(:to)
-        raise ArgumentError.new('No target language provded') unless @target
+        raise ArgumentError.new('No target language provided') unless @target
         raise ArgumentError.new('Support for multiple targets dropped in V2') if @target.is_a?(Array)
         @http_options = http_options
         if options

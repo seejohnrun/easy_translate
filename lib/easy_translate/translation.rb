@@ -1,6 +1,8 @@
 require 'json'
 require 'cgi'
-require File.dirname(__FILE__) + '/request'
+require 'thread/pool'
+require 'thread_safe'
+require 'easy_translate/request'
 
 module EasyTranslate
 
@@ -8,19 +10,40 @@ module EasyTranslate
 
     # Translate text
     # @param [String, Array] texts - A single string or set of strings to translate
+    # @option options [Fixnum] :batch_size - Maximum keys per request (optional, default 100)
+    # @option options [Fixnum] :concurrency - Maximum concurrent requests (optional, default 4)
     # @option options [String, Symbol] :source - The source language (optional)
     # @option options [String, Symbol] :target - The target language (required)
     # @option options [Boolean] :html - Whether or not the supplied string is HTML (optional)
     # @return [String, Array] Translated text or texts
     def translate(texts, options = {}, http_options = {})
+      pool = Thread::Pool.new(1, options[:concurrency] || 4)
+      batch_results = ThreadSafe::Array.new
+      Array(texts).each_slice(options[:batch_size] || 100).each_with_index do |texts_slice, i|
+        pool.process {
+          batch_results[i] = request_translations(texts_slice, options, http_options)
+        }
+      end
+      pool.shutdown
+      results = batch_results.reduce(:+)
+      # if they only asked for one, only give one back
+      texts.is_a?(String) ? results[0] : results
+    end
+
+
+    # Perform a single request to translate texts
+    # @param [Array] texts - Texts to translate
+    # @option options [String, Symbol] :source - The source language (optional)
+    # @option options [String, Symbol] :target - The target language (required)
+    # @option options [Boolean] :html - Whether or not the supplied string is HTML (optional)
+    # @return [String, Array] Translated text or texts
+    def request_translations(texts, options = {}, http_options = {})
       request = TranslationRequest.new(texts, options, http_options)
       # Turn the response into an array of translations
       raw = request.perform_raw
-      translations = JSON.parse(raw)['data']['translations'].map do |res|
+      JSON.parse(raw)['data']['translations'].map do |res|
         res['translatedText']
       end
-      # And then return, if they only asked for one, only give one back
-      request.multi? ? translations : translations.first
     end
 
     # A convenience class for wrapping a translation request

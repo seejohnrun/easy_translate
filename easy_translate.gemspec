@@ -5,6 +5,8 @@ spec = Gem::Specification.new do |s|
   s.author = 'John Crepezzi'
   s.add_development_dependency('rspec')
   s.add_dependency('json')
+  s.add_dependency 'thread'
+  s.add_dependency 'thread_safe'
   s.description = 'easy_translate is a wrapper for the google translate API that makes sense programatically, and implements API keys'
   s.email = 'john.crepezzi@gmail.com'
   s.files = Dir['lib/**/*.rb']
@@ -16,3 +18,4 @@ spec = Gem::Specification.new do |s|
   s.test_files = Dir.glob('spec/*.rb')
   s.version = EasyTranslate::VERSION
 end
+

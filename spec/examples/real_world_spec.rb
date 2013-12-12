@@ -19,7 +19,7 @@ describe EasyTranslate do
 
     it 'should be able to translate multiple' do
       res = EasyTranslate.translate ['hello world', 'i love you'], :to => :spanish
-      res.should == ['hola mundo', 'te quiero']
+      res.should == ['hola mundo', 'te amo']
     end
 
   end

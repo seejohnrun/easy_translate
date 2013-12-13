@@ -18,15 +18,23 @@ module EasyTranslate
     # @return [String, Array] Translated text or texts
     def translate(texts, options = {}, http_options = {})
       options       = options.dup
-      pool          = Thread::Pool.new(1, options.delete(:concurrency) || 4)
-      batch_results = ThreadSafe::Array.new
-      Array(texts).each_slice(options.delete(:batch_size) || 100).each_with_index do |texts_slice, i|
-        pool.process {
-          batch_results[i] = request_translations(texts_slice, options.dup, http_options)
-        }
+      batch_size    = options.delete(:batch_size) || 100
+      concurrency   = options.delete(:concurrency) || 4
+      if texts.length > batch_size && concurrency > 1
+        pool          = Thread::Pool.new(1, concurrency)
+        batch_results = ThreadSafe::Array.new
+        Array(texts).each_slice(batch_size).each_with_index do |texts_slice, i|
+          pool.process {
+            batch_results[i] = request_translations(texts_slice, options, http_options)
+          }
+        end
+        pool.shutdown
+        results = batch_results.reduce(:+)
+      else
+        results = Array(texts).each_slice(batch_size).map do |texts_slice|
+          request_translations(texts_slice, options, http_options)
+        end.reduce(:+)
       end
-      pool.shutdown
-      results = batch_results.reduce(:+)
       # if they only asked for one, only give one back
       texts.is_a?(String) ? results[0] : results
     end
@@ -54,6 +62,7 @@ module EasyTranslate
       # @param [String, Array] texts - the text (or texts) to translate
       # @param [Hash] options - Options to override or pass along with the request
       def initialize(texts, options, http_options = {})
+        options = options.dup
         self.texts = texts
         self.html = options.delete(:html)
         @source = options.delete(:from)

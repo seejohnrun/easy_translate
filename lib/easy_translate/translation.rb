@@ -17,11 +17,12 @@ module EasyTranslate
     # @option options [Boolean] :html - Whether or not the supplied string is HTML (optional)
     # @return [String, Array] Translated text or texts
     def translate(texts, options = {}, http_options = {})
-      pool = Thread::Pool.new(1, options[:concurrency] || 4)
+      options       = options.dup
+      pool          = Thread::Pool.new(1, options.delete(:concurrency) || 4)
       batch_results = ThreadSafe::Array.new
-      Array(texts).each_slice(options[:batch_size] || 100).each_with_index do |texts_slice, i|
+      Array(texts).each_slice(options.delete(:batch_size) || 100).each_with_index do |texts_slice, i|
         pool.process {
-          batch_results[i] = request_translations(texts_slice, options, http_options)
+          batch_results[i] = request_translations(texts_slice, options.dup, http_options)
         }
       end
       pool.shutdown
@@ -71,7 +72,7 @@ module EasyTranslate
       # The params for this request
       # @return [Hash] the params for the request
       def params
-        params = super || {}
+        params          = super || {}
         params[:source] = lang(@source) unless @source.nil?
         params[:target] = lang(@target) unless @target.nil?
         params[:format] = @format unless @format.nil?

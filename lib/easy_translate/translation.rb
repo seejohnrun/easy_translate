@@ -20,7 +20,7 @@ module EasyTranslate
       options       = options.dup
       batch_size    = options.delete(:batch_size) || 100
       concurrency   = options.delete(:concurrency) || 4
-      batches       = Array(texts).each_slice(batch_size)
+      batches       = Array(texts).each_slice(batch_size).to_a
       if concurrency > 1 && batches.size > 1
         pool          = Thread::Pool.new [concurrency, 1 + (texts - 1) / batch_size].min
         batch_results = ThreadSafe::Array.new

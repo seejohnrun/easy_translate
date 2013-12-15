@@ -80,6 +80,11 @@ describe EasyTranslate::Translation do
         req.params[:format].should == 'html'
       end
 
+      it 'should include format when specified as text' do
+        req = klass.new('abc', :format => 'text', :to => 'es')
+        req.params[:format].should == 'text'
+      end
+
       it 'should use default params' do
         EasyTranslate.api_key = 'abc'
         request = klass.new('abc', :to => 'es')

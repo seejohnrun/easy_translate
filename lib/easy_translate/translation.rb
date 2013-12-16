@@ -37,6 +37,8 @@ module EasyTranslate
     end
 
 
+    private
+
     # Perform a single request to translate texts
     # @param [Array] texts - Texts to translate
     # @option options [String, Symbol] :source - The source language (optional)

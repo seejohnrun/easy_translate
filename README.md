@@ -51,10 +51,14 @@ Or in your Gemfile:
     # detect language
     EasyTranslate.detect "This is definitely English!" # => 'en'
 
-### What if everything is buried in html?
+### Google Translate supports HTML (default) and plain text formats
 
-    # mention that you're submitting HTML (translate calls only)
-    EasyTranslate.translate("<b>Hello</b>", :html => true) # => "<b>¡Hola</b>"
+```ruby
+EasyTranslate.translate "Las doce en punto", :format => 'text', :to => :en        
+# => "Twelve o'clock"
+EasyTranslate.translate "Las doce <b>en punto</b>", :format => 'html', :to => :en 
+# => "Twelve <b>o&#39;clock</b>"
+```
 
 ---
 

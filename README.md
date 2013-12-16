@@ -19,12 +19,12 @@ gem 'easy_translate'
 ### Single translation
 
 ```ruby
-  # auto-detect
-  EasyTranslate.translate('Hello, world', :to => :spanish) # => "Hola, mundo"
-  EasyTranslate.translate('Hello, world', :to => 'es') # => "Hola, mundo"
+# auto-detect
+EasyTranslate.translate('Hello, world', :to => :spanish) # => "Hola, mundo"
+EasyTranslate.translate('Hello, world', :to => 'es') # => "Hola, mundo"
 
-  # feel free to specify explicitly 
-  EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hello, world"
+# feel free to specify explicitly 
+EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hello, world"
 ```
 
 ---
@@ -32,10 +32,10 @@ gem 'easy_translate'
 ### Batch translation (Yay!)
 
 ```ruby
-  # multiple strings
-  EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
+# multiple strings
+EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
 
-	EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
+EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
 ```
 
 ---
@@ -47,12 +47,12 @@ other languages. This can be done destructively when you want to build clean ver
 non-destructively if you want to avoid modifying any of the hand tuned values in your translations.
 
 ```ruby
-  # destructive translation - just to be sure we get updates to some of the old entries
-  EasyTranslate.tranlate_catalog!('config/locales/en.yml', 'sp', 'fr', 'de')
-  
-  # non-destructive translation - don't tread on the finely tuned translations, but get the
-  # new items that were added since last time.
-  EasyTranslate.tranlate_catalog('config/locales/en.yml', 'sp', 'fr', 'de')
+# destructive translation - just to be sure we get updates to some of the old entries
+EasyTranslate.tranlate_catalog!('config/locales/en.yml', 'sp', 'fr', 'de')
+
+# non-destructive translation - don't tread on the finely tuned translations, but get the
+# new items that were added since last time.
+EasyTranslate.tranlate_catalog('config/locales/en.yml', 'sp', 'fr', 'de')
 ```
 
 ---
@@ -60,11 +60,11 @@ non-destructively if you want to avoid modifying any of the hand tuned values in
 ### API Keys
 
 ```ruby
-  # make google happy - (NOTE: use these anywhere)
-  EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx')
+# make google happy - (NOTE: use these anywhere)
+EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx')
 
-  # don't want to set the key on every call? ** Me either! **
-  EasyTranslate.api_key = 'xxx'
+# don't want to set the key on every call? ** Me either! **
+EasyTranslate.api_key = 'xxx'
 ```
 
 ---
@@ -72,15 +72,15 @@ non-destructively if you want to avoid modifying any of the hand tuned values in
 ### Because you might be greedy and want detection, too
 
 ```ruby
-  # detect language
-  EasyTranslate.detect "This is definitely English!" # => 'en'
+# detect language
+EasyTranslate.detect "This is definitely English!" # => 'en'
 ```
 
 ### What if everything is buried in html?
 
 ```ruby
-  # mention that you're submitting HTML (translate calls only)
-  EasyTranslate.translate("<b>Hello</b>", :html => true) # => "<b>¡Hola</b>"
+# mention that you're submitting HTML (translate calls only)
+EasyTranslate.translate("<b>Hello</b>", :html => true) # => "<b>¡Hola</b>"
 ```
 
 ---
@@ -88,18 +88,18 @@ non-destructively if you want to avoid modifying any of the hand tuned values in
 ### List of languages
 
 ```ruby
-  # list from <http://translate.google.com/>
-  EasyTranslate::LANGUAGES # => { 'en' => 'english', ... }
+# list from <http://translate.google.com/>
+EasyTranslate::LANGUAGES # => { 'en' => 'english', ... }
 ```
 
 ### List of supported languages
 
 ```ruby
-  # List all languages (from API)
-  EasyTranslate.translations_available
+# List all languages (from API)
+EasyTranslate.translations_available
 
-  # List all languages supported by some language
-  EasyTranslate.translations_available('zh-CN')
+# List all languages supported by some language
+EasyTranslate.translations_available('zh-CN')
 ```
 
 ---

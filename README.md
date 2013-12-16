@@ -36,6 +36,21 @@ Or in your Gemfile:
 
 ---
 
+### Catalog translation
+
+You can translate your locale messages from one of your locale dictionaries into one or more
+other languages. This can be done destructively when you want to build clean versions, or
+non-destructively if you want to avoid modifying any of the hand tuned values in your translations.
+
+    # destructive translation - just to be sure we get updates to some of the old entries
+    EasyTranslate.tranlate_catalog!('config/locales/en.yml', 'sp', 'fr', 'de')
+    
+    # non-destructive translation - don't tread on the finely tuned translations, but get the
+    # new items that were added since last time.
+    EasyTranslate.tranlate_catalog('config/locales/en.yml', 'sp', 'fr', 'de')
+
+---
+
 ### API Keys
 
     # make google happy - (NOTE: use these anywhere)

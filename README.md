@@ -11,28 +11,32 @@ I looked around a bit for a google translate library in Ruby that would perform 
     $ gem install easy_translate
 
 Or in your Gemfile:
-
-    gem 'easy_translate'
-
+```ruby
+gem 'easy_translate'
+```
 ---
 
 ### Single translation
 
-    # auto-detect
-    EasyTranslate.translate('Hello, world', :to => :spanish) # => "Hola, mundo"
-    EasyTranslate.translate('Hello, world', :to => 'es') # => "Hola, mundo"
+```ruby
+  # auto-detect
+  EasyTranslate.translate('Hello, world', :to => :spanish) # => "Hola, mundo"
+  EasyTranslate.translate('Hello, world', :to => 'es') # => "Hola, mundo"
 
-    # feel free to specify explicitly 
-    EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hello, world"
+  # feel free to specify explicitly 
+  EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hello, world"
+```
 
 ---
 
 ### Batch translation (Yay!)
 
-    # multiple strings
-    EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
+```ruby
+  # multiple strings
+  EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
 
-		EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
+	EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
+```
 
 ---
 
@@ -42,49 +46,61 @@ You can translate your locale messages from one of your locale dictionaries into
 other languages. This can be done destructively when you want to build clean versions, or
 non-destructively if you want to avoid modifying any of the hand tuned values in your translations.
 
-    # destructive translation - just to be sure we get updates to some of the old entries
-    EasyTranslate.tranlate_catalog!('config/locales/en.yml', 'sp', 'fr', 'de')
-    
-    # non-destructive translation - don't tread on the finely tuned translations, but get the
-    # new items that were added since last time.
-    EasyTranslate.tranlate_catalog('config/locales/en.yml', 'sp', 'fr', 'de')
+```ruby
+  # destructive translation - just to be sure we get updates to some of the old entries
+  EasyTranslate.tranlate_catalog!('config/locales/en.yml', 'sp', 'fr', 'de')
+  
+  # non-destructive translation - don't tread on the finely tuned translations, but get the
+  # new items that were added since last time.
+  EasyTranslate.tranlate_catalog('config/locales/en.yml', 'sp', 'fr', 'de')
+```
 
 ---
 
 ### API Keys
 
-    # make google happy - (NOTE: use these anywhere)
-    EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx')
+```ruby
+  # make google happy - (NOTE: use these anywhere)
+  EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx')
 
-    # don't want to set the key on every call? ** Me either! **
-    EasyTranslate.api_key = 'xxx'
+  # don't want to set the key on every call? ** Me either! **
+  EasyTranslate.api_key = 'xxx'
+```
 
 ---
 
 ### Because you might be greedy and want detection, too
 
-    # detect language
-    EasyTranslate.detect "This is definitely English!" # => 'en'
+```ruby
+  # detect language
+  EasyTranslate.detect "This is definitely English!" # => 'en'
+```
 
 ### What if everything is buried in html?
 
-    # mention that you're submitting HTML (translate calls only)
-    EasyTranslate.translate("<b>Hello</b>", :html => true) # => "<b>¡Hola</b>"
+```ruby
+  # mention that you're submitting HTML (translate calls only)
+  EasyTranslate.translate("<b>Hello</b>", :html => true) # => "<b>¡Hola</b>"
+```
 
 ---
 
 ### List of languages
 
-    # list from <http://translate.google.com/>
-    EasyTranslate::LANGUAGES # => { 'en' => 'english', ... }
+```ruby
+  # list from <http://translate.google.com/>
+  EasyTranslate::LANGUAGES # => { 'en' => 'english', ... }
+```
 
 ### List of supported languages
 
-    # List all languages (from API)
-    EasyTranslate.translations_available
+```ruby
+  # List all languages (from API)
+  EasyTranslate.translations_available
 
-    # List all languages supported by some language
-    EasyTranslate.translations_available('zh-CN')
+  # List all languages supported by some language
+  EasyTranslate.translations_available('zh-CN')
+```
 
 ---
 

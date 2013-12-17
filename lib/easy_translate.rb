@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + '/easy_translate/detection'
-require File.dirname(__FILE__) + '/easy_translate/translation'
-require File.dirname(__FILE__) + '/easy_translate/translation_target'
+require 'easy_translate/detection'
+require 'easy_translate/translation'
+require 'easy_translate/translation_target'
 
 module EasyTranslate
 
-  autoload :EasyTranslateException, File.dirname(__FILE__) + '/easy_translate/easy_translate_exception'
-  autoload :Request, File.dirname(__FILE__) + '/easy_translate/request'
+  autoload :EasyTranslateException, 'easy_translate/easy_translate_exception'
+  autoload :Request, 'easy_translate/request'
 
-  autoload :LANGUAGES, File.dirname(__FILE__) + '/easy_translate/languages'
-  autoload :VERSION, File.dirname(__FILE__) + '/easy_translate/version'
+  autoload :LANGUAGES, 'easy_translate/languages'
+  autoload :VERSION, 'easy_translate/version'
 
   extend Detection # Language Detection
   extend Translation # Language Translation

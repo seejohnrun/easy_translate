@@ -7,5 +7,5 @@ rescue LoadError
 end
 
 # Require the actual project
-require 'ostruct'
-require File.dirname(__FILE__) + '/../lib/easy_translate'
+$: << File.expand_path('../lib', __FILE__)
+require 'easy_translate'

@@ -2,7 +2,8 @@
 
 [![Build Status](https://secure.travis-ci.org/seejohnrun/easy_translate.png)](http://travis-ci.org/seejohnrun/easy_translate)
 
-I looked around a bit for a google translate library in Ruby that would perform bulk calls and handle user_ips and API keys properly.  There didn't seem to be any, so I made one.
+This is a Ruby library for Google Translate that makes working with bulk calls,
+user_ips and access via API Key easy.
 
 ---
 
@@ -20,20 +21,18 @@ gem 'easy_translate'
 
 ---
 
-### Single translation
+## Single translation
 
 ```ruby
 # auto-detect
 EasyTranslate.translate('Hello, world', :to => :spanish) # => "Hola, mundo"
 EasyTranslate.translate('Hello, world', :to => 'es') # => "Hola, mundo"
 
-# feel free to specify explicitly 
+# feel free to specify explicitly
 EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hello, world"
 ```
 
----
-
-### Batch translation (Yay!)
+## Batch translation (Yay!)
 
 ```ruby
 # multiple strings
@@ -41,9 +40,7 @@ EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "
 EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
 ```
 
----
-
-### API Keys
+## API Keys
 
 ```ruby
 # make google happy - (NOTE: use these anywhere)
@@ -53,27 +50,35 @@ EasyTranslate.translate('Hello, world', :to => :es, :key => 'xxx')
 EasyTranslate.api_key = 'xxx'
 ```
 
----
-
-### Because you might be greedy and want detection, too
+## You want language detection too?
 
 ```ruby
 # detect language
 EasyTranslate.detect "This is definitely English!" # => 'en'
 ```
 
-### Google Translate supports HTML (default) and plain text formats
+## Google Translate supports HTML (default) and plain text formats
 
 ```ruby
-EasyTranslate.translate "Las doce en punto", :format => 'text', :to => :en        
+EasyTranslate.translate "Las doce en punto", :format => 'text', :to => :en
 # => "Twelve o'clock"
-EasyTranslate.translate "Las doce <b>en punto</b>", :format => 'html', :to => :en 
+EasyTranslate.translate "Las doce <b>en punto</b>", :format => 'html', :to => :en
 # => "Twelve <b>o&#39;clock</b>"
 ```
 
 ---
 
-### List of languages
+## A note on concurrency as of v0.4.0
+
+Due to limitations with the Google Translate batch API, above a certain
+number of translations - this library will begin making calls concurrently.
+
+The default concurrency is 4, but if you'd prefer to run without threads,
+you can set `:concurrency => 1` to run the translation calls serially.
+
+---
+
+## List of languages
 
 ```ruby
 # list from <http://translate.google.com/>
@@ -103,6 +108,7 @@ You can find the port [on GitHub](https://github.com/Kofel/EasyTranslate)
 
 * John Crepezzi - john.crepezzi@gmail.com
 * Guy Maliar - gmaliar@gmail.com
+* Gleb Mazovetskiy (@glebm)
 
 Full contributor data at:
 https://github.com/seejohnrun/easy_translate/contributors
@@ -115,8 +121,19 @@ https://github.com/seejohnrun/easy_translate/contributors
 
 Copyright © 2010-2011 John Crepezzi
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the ‘Software’), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the ‘Software’), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the Software, and to permit persons to whom the Software is furnished to do
+so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED ‘AS IS’, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

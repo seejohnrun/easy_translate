@@ -22,7 +22,7 @@ module EasyTranslate
       concurrency   = options.delete(:concurrency) || 4
       batches       = Array(texts).each_slice(batch_size).to_a
       if concurrency > 1 && batches.size > 1
-        pool          = Thread::Pool.new [concurrency, 1 + (texts - 1) / batch_size].min
+        pool          = Thread::Pool.new([concurrency, 1 + (texts.length - 1) / batch_size].min)
         batch_results = ThreadSafe::Array.new
         batches.each_with_index do |texts_batch, i|
           pool.process { batch_results[i] = request_translations(texts_batch, options, http_options) }
@@ -34,8 +34,9 @@ module EasyTranslate
       end
       # if they only asked for one, only give one back
       texts.is_a?(String) ? results[0] : results
+    ensure
+      pool.shutdown! if pool && !pool.shutdown?
     end
-
 
     private
 

@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../spec_helper'
+# encoding: utf-8
+require 'spec_helper'
 
 describe EasyTranslate do
 
@@ -22,6 +23,10 @@ describe EasyTranslate do
       res.should == ['hola mundo', 'te amo']
     end
 
+    it 'should work concurrently' do
+      res = EasyTranslate.translate ['hello world', 'i love you', 'good morning'], :to => :spanish, :concurrency => 2, :batch_size => 1
+      res.should == ['hola mundo', 'te amo', '¡buenos días']
+    end
   end
 
   describe :detect do

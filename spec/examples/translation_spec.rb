@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe EasyTranslate::Translation do
 
   it 'should return a single if given a single - from doc' do
-    EasyTranslate::Translation::TranslationRequest.stub!(:new).and_return(OpenStruct.new({
+    EasyTranslate::Translation::TranslationRequest.should_receive(:new).and_return(OpenStruct.new({
       :perform_raw => '{"data":{"translations":[{"translatedText":"Hallo Welt"}]}}',
       :multi? => false
     }))
@@ -12,7 +12,7 @@ describe EasyTranslate::Translation do
   end
 
   it 'should return a multiple if given multiple - from doc' do
-    EasyTranslate::Translation::TranslationRequest.stub!(:new).and_return(OpenStruct.new({
+    EasyTranslate::Translation::TranslationRequest.should_receive(:new).and_return(OpenStruct.new({
       :perform_raw => '{"data":{"translations":[{"translatedText": "Hallo Welt"},{"translatedText":"Mein Name ist Jeff"}]}}',
       :multi? => true
     }))

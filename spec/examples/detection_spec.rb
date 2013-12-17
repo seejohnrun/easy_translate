@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe EasyTranslate::Detection do
 
   it 'should return a single if given a single - from doc' do
-    EasyTranslate::Detection::DetectionRequest.stub!(:new).and_return(OpenStruct.new({
+    EasyTranslate::Detection::DetectionRequest.should_receive(:new).and_return(OpenStruct.new({
       :perform_raw => '{"data":{"detections":[[{"language":"en"}]]}}',
       :multi? => false
     }))

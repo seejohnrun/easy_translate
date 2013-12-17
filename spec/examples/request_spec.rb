@@ -41,7 +41,7 @@ describe EasyTranslate::Request do
 
     it 'should skip nil parameters' do
       request = EasyTranslate::Request.new
-      request.stub!(:params).and_return({ :something => nil })
+      request.should_receive(:params).and_return({ :something => nil })
       request.send(:param_s).should be_empty
     end
 

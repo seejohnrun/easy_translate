@@ -1,6 +1,6 @@
 require 'json'
 require 'cgi'
-require File.dirname(__FILE__) + '/request'
+require 'easy_translate/request'
 
 module EasyTranslate
 

@@ -1,5 +1,4 @@
-$: << File.expand_path('lib', File.dirname(__FILE__))
-require 'easy_translate/version'
+require File.expand_path('lib/easy_translate/version', File.dirname(__FILE__))
 
 spec = Gem::Specification.new do |s|
   s.name = 'easy_translate'  

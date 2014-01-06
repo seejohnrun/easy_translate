@@ -1,12 +1,12 @@
 require 'json'
 require 'cgi'
-require 'thread/pool'
-require 'thread_safe'
 require 'easy_translate/request'
+require 'easy_translate/threadable'
 
 module EasyTranslate
 
   module Translation
+    include Threadable
 
     # Translate text
     # @param [String, Array] texts - A single string or set of strings to translate
@@ -17,25 +17,7 @@ module EasyTranslate
     # @option options [Boolean] :html - Whether or not the supplied string is HTML (optional)
     # @return [String, Array] Translated text or texts
     def translate(texts, options = {}, http_options = {})
-      options       = options.dup
-      batch_size    = options.delete(:batch_size) || 100
-      concurrency   = options.delete(:concurrency) || 4
-      batches       = Array(texts).each_slice(batch_size).to_a
-      if concurrency > 1 && batches.size > 1
-        pool          = Thread::Pool.new([concurrency, 1 + (texts.length - 1) / batch_size].min)
-        batch_results = ThreadSafe::Array.new
-        batches.each_with_index do |texts_batch, i|
-          pool.process { batch_results[i] = request_translations(texts_batch, options, http_options) }
-        end
-        pool.shutdown
-        results = batch_results.reduce(:+)
-      else
-        results = batches.map { |texts_batch| request_translations(texts_batch, options, http_options) }.reduce(:+)
-      end
-      # if they only asked for one, only give one back
-      texts.is_a?(String) ? results[0] : results
-    ensure
-      pool.shutdown! if pool && !pool.shutdown?
+      threaded_process(:request_translations, texts, options, http_options)
     end
 
     private

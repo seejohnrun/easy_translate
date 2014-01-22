@@ -13,7 +13,7 @@ task :release => :build do
   # push the gem
   system "gem push easy_translate-#{version}.gem"
 end
- 
+
 RSpec::Core::RakeTask.new(:test) do |t|
   t.pattern = 'spec/**/*_spec.rb'
   fail_on_error = true # be explicit

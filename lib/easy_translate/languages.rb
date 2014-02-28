@@ -30,6 +30,7 @@ module EasyTranslate
     'it' => 'italian',
     'ja' => 'japanese',
     'ko' => 'korean',
+    'la' => 'latin',
     'lv' => 'latvian',
     'lt' => 'lithuanian',
     'mk' => 'macedonian',

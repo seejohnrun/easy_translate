@@ -3,21 +3,34 @@ require 'spec_helper'
 describe EasyTranslate::Translation do
 
   it 'should return a single if given a single - from doc' do
-    EasyTranslate::Translation::TranslationRequest.should_receive(:new).and_return(OpenStruct.new({
+    fake_request(
       :perform_raw => '{"data":{"translations":[{"translatedText":"Hallo Welt"}]}}',
       :multi? => false
-    }))
+    )
     trans = EasyTranslate.translate 'Hello world', :to => 'de'
     trans.should == 'Hallo Welt'
   end
 
   it 'should return a multiple if given multiple - from doc' do
-    EasyTranslate::Translation::TranslationRequest.should_receive(:new).and_return(OpenStruct.new({
+    fake_request(
       :perform_raw => '{"data":{"translations":[{"translatedText": "Hallo Welt"},{"translatedText":"Mein Name ist Jeff"}]}}',
       :multi? => true
-    }))
+    )
     trans = EasyTranslate.translate ['Hello world', 'my name is jeff'], :to => 'de'
     trans.should == ['Hallo Welt', 'Mein Name ist Jeff']
+  end
+
+  it 'should decode HTML entities in the response' do
+    fake_request(
+      :perform_raw => '{"data":{"translations":[{"translatedText":"Hallo &#39; &amp; &quot; Welt"}]}}',
+      :multi? => false
+    )
+    trans = EasyTranslate.translate %{Hello ' & " world}, :to => 'de'
+    trans.should == %{Hallo ' & " Welt}
+  end
+
+  def fake_request(hash)
+    EasyTranslate::Translation::TranslationRequest.should_receive(:new).and_return(OpenStruct.new(hash))
   end
 
   klass = EasyTranslate::Translation::TranslationRequest

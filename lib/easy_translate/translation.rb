@@ -33,7 +33,8 @@ module EasyTranslate
       # Turn the response into an array of translations
       raw = request.perform_raw
       JSON.parse(raw)['data']['translations'].map do |res|
-        res['translatedText']
+        raw_translation = res['translatedText']
+        CGI.unescapeHTML(raw_translation)
       end
     end
 

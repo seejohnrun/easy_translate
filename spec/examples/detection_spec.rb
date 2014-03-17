@@ -1,14 +1,43 @@
+# encoding: UTF-8
+
 require 'spec_helper'
 
 describe EasyTranslate::Detection do
 
   it 'should return a single if given a single - from doc' do
     EasyTranslate::Detection::DetectionRequest.should_receive(:new).and_return(OpenStruct.new({
-      :perform_raw => '{"data":{"detections":[[{"language":"en"}]]}}',
+      :perform_raw => '{"data":{"detections":[[{"language":"en","isReliable":false,"confidence":0.6595744}]]}}',
       :multi? => false
     }))
     lang = EasyTranslate.detect 'Google Translate Rocks'
     lang.should == 'en'
+  end
+
+  it 'should return a single with confidence if given a single with confidence - from doc' do
+    EasyTranslate::Detection::DetectionRequest.should_receive(:new).and_return(OpenStruct.new({
+      :perform_raw => '{"data":{"detections":[[{"language":"en","isReliable":false,"confidence":0.6595744}]]}}',
+      :multi? => false
+    }))
+    lang = EasyTranslate.detect 'Google Translate Rocks', :confidence => true
+    lang.should == { :language => 'en', :confidence => 0.6595744 }
+  end
+
+  it 'should return a multiple if given multiple - from doc' do
+    EasyTranslate::Detection::DetectionRequest.should_receive(:new).and_return(OpenStruct.new({
+      :perform_raw => '{"data":{"detections":[[{"language":"en","isReliable":false,"confidence":0.6315789}],[{"language":"zh-CN","isReliable":false,"confidence":1.0}]]}}',
+      :multi? => true
+    }))
+    lang = EasyTranslate.detect ['Hello World', '我姓譚']
+    lang.should == ['en', 'zh-CN']
+  end
+
+  it 'should return a multiple with confidence if given multiple with confidence - from doc' do
+    EasyTranslate::Detection::DetectionRequest.should_receive(:new).and_return(OpenStruct.new({
+      :perform_raw => '{"data":{"detections":[[{"language":"en","isReliable":false,"confidence":0.6315789}],[{"language":"zh-CN","isReliable":false,"confidence":1.0}]]}}',
+      :multi? => true
+    }))
+    lang = EasyTranslate.detect ['Hello World', '我姓譚'], :confidence => true
+    lang.should == [{ :language => 'en', :confidence => 0.6315789 }, { :language => 'zh-CN', :confidence => 1.0 }]
   end
 
   klass = EasyTranslate::Detection::DetectionRequest
@@ -79,6 +108,11 @@ describe EasyTranslate::Detection do
         http = request.send(:http)
         http.verify_depth.should == 3
         http.ca_file.should == 'path/to/ca/file'
+      end
+
+      it 'should accept confidence option' do
+        request = EasyTranslate::Detection::DetectionRequest.new "test", {:confidence => true}, {}
+        request.params[:confidence].should == true
       end
 
     end

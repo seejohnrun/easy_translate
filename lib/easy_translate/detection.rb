@@ -1,24 +1,30 @@
 require 'json'
 require 'cgi'
 require 'easy_translate/request'
+require 'easy_translate/threadable'
 
 module EasyTranslate
 
   module Detection
+    include Threadable
 
     # Detect language
     # @param [String, Array] texts - A single string or set of strings to detect for
     # @param [Hash] options - Extra options to pass along with the request
     # @return [String, Array] The resultant language or languages
     def detect(texts, options = {}, http_options = {})
+      threaded_process(:request_detection, texts, options, http_options)
+    end
+
+    private
+    def request_detection(texts, options, http_options)
       request = DetectionRequest.new(texts, options, http_options)
-      # Turn the response into an array of detections
       raw = request.perform_raw
       detections = JSON.parse(raw)['data']['detections'].map do |res|
-        res.empty? ? nil : res.first['language']
+        res.empty? ? nil : 
+          options[:confidence] ? 
+            { :language => res.first['language'], :confidence => res.first['confidence'] } : res.first['language']
       end
-      # And then return, if they only asked for one, only give one back
-      request.multi? ? detections : detections.first
     end
 
     # A convenience class for wrapping a detection request

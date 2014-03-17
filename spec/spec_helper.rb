@@ -1,5 +1,6 @@
 # Start SimpleCov
 begin
+  require 'ostruct'
   require 'simplecov'
   SimpleCov.start
 rescue LoadError

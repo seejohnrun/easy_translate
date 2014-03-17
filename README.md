@@ -37,7 +37,6 @@ EasyTranslate.translate('Hola, mundo', :from => :spanish, :to => :en) # => "Hell
 ```ruby
 # multiple strings
 EasyTranslate.translate(['Hello', 'Goodbye'], :to => :spanish) # => ["¡Hola", "Despedida"]
-EasyTranslate.detect(['hello', 'hola, mundo']) # => ['en', 'es']
 ```
 
 ## API Keys
@@ -56,6 +55,27 @@ EasyTranslate.api_key = 'xxx'
 # detect language
 EasyTranslate.detect "This is definitely English!" # => 'en'
 ```
+
+## Batch detection (Woohoo!)
+
+```ruby
+# detect language
+EasyTranslate.detect ['Hello World', '我姓譚'] # => ['en', 'zh-CN']
+```
+
+## Need confidence in your detections?
+
+```ruby
+# detect language with confidence
+EasyTranslate.detect "This is definitely English!", :confidence => true # => { :language => 'en', :confidence => 0.77272725 }
+```
+
+```ruby
+# detect batch languages with confidence
+EasyTranslate.detect ['This is definitely English!', '我姓譚'], :confidence => true # => [{ :language => 'en', :confidence => 0.77272725 }, { :language => 'zh-CN', :confidence => 1.0 }]
+```
+
+
 
 ## Google Translate supports HTML (default) and plain text formats
 

@@ -6,9 +6,9 @@ describe EasyTranslate::Request do
 
     it 'should raise a NotImplementedError on this base class' do
       request = EasyTranslate::Request.new
-      lambda do
+      expect do
         request.path
-      end.should raise_error NotImplementedError
+      end.to raise_error NotImplementedError
     end
 
   end
@@ -17,7 +17,7 @@ describe EasyTranslate::Request do
 
     it 'should be blank by default' do
       request = EasyTranslate::Request.new
-      request.body.should be_empty
+      expect(request.body).to be_empty
     end
 
   end
@@ -27,12 +27,12 @@ describe EasyTranslate::Request do
     it 'should include the key if given at the base' do
       EasyTranslate.api_key = 'abc'
       request = EasyTranslate::Request.new
-      request.params[:key].should == 'abc'
+      expect(request.params[:key]).to eq('abc')
     end
 
     it 'should turn off prettyPrint' do
       request = EasyTranslate::Request.new
-      request.params[:prettyPrint].should == 'false'
+      expect(request.params[:prettyPrint]).to eq('false')
     end
 
   end
@@ -41,8 +41,8 @@ describe EasyTranslate::Request do
 
     it 'should skip nil parameters' do
       request = EasyTranslate::Request.new
-      request.should_receive(:params).and_return({ :something => nil })
-      request.send(:param_s).should be_empty
+      expect(request).to receive(:params).and_return({ :something => nil })
+      expect(request.send(:param_s)).to be_empty
     end
 
   end

@@ -8,7 +8,7 @@ describe EasyTranslate::Translation do
       :multi? => false
     )
     trans = EasyTranslate.translate 'Hello world', :to => 'de'
-    trans.should == 'Hallo Welt'
+    expect(trans).to eq('Hallo Welt')
   end
 
   it 'should return a multiple if given multiple - from doc' do
@@ -17,7 +17,7 @@ describe EasyTranslate::Translation do
       :multi? => true
     )
     trans = EasyTranslate.translate ['Hello world', 'my name is jeff'], :to => 'de'
-    trans.should == ['Hallo Welt', 'Mein Name ist Jeff']
+    expect(trans).to eq(['Hallo Welt', 'Mein Name ist Jeff'])
   end
 
   it 'should decode HTML entities in the response' do
@@ -26,11 +26,11 @@ describe EasyTranslate::Translation do
       :multi? => false
     )
     trans = EasyTranslate.translate %{Hello ' & " world}, :to => 'de'
-    trans.should == %{Hallo ' & " Welt}
+    expect(trans).to eq(%{Hallo ' & " Welt})
   end
 
   def fake_request(hash)
-    EasyTranslate::Translation::TranslationRequest.should_receive(:new).and_return(OpenStruct.new(hash))
+    expect(EasyTranslate::Translation::TranslationRequest).to receive(:new).and_return(OpenStruct.new(hash))
   end
 
   klass = EasyTranslate::Translation::TranslationRequest
@@ -40,7 +40,7 @@ describe EasyTranslate::Translation do
       
       it 'should have a valid path' do
         request = klass.new('abc', :to => 'en')
-        request.path.should_not be_empty
+        expect(request.path).not_to be_empty
       end
 
     end
@@ -48,15 +48,15 @@ describe EasyTranslate::Translation do
     describe :initialize do
 
       it 'should raise an error when there is no to given' do
-        lambda do
+        expect do
           req = klass.new('abc', :from => 'en')
-        end.should raise_error ArgumentError
+        end.to raise_error ArgumentError
       end
 
       it 'should raise an error when tos are given as an array' do
-        lambda do
+        expect do
           req = klass.new('abc', :from => 'en', :to => ['es', 'de'])
-        end.should raise_error ArgumentError
+        end.to raise_error ArgumentError
       end
 
     end
@@ -65,81 +65,81 @@ describe EasyTranslate::Translation do
 
       it 'should include from in params if given' do
         req = klass.new('abc', :from => 'en', :to => 'es')
-        req.params[:source].should == 'en'
+        expect(req.params[:source]).to eq('en')
       end
 
       it 'should not include from by default' do
         req = klass.new('abc', :to => 'es')
-        req.params[:source].should be_nil
+        expect(req.params[:source]).to be_nil
       end
 
       it 'should include to' do
         req = klass.new('abc', :to => 'es')
-        req.params[:target].should == 'es'
+        expect(req.params[:target]).to eq('es')
       end
 
       it 'should not include format by default' do
         req = klass.new('abc', :to => 'es')
-        req.params[:format].should be_nil
+        expect(req.params[:format]).to be_nil
       end
 
       it 'should not include format when given as false' do
         req = klass.new('abc', :html => false, :to => 'es')
-        req.params[:format].should be_nil
+        expect(req.params[:format]).to be_nil
       end
 
       it 'should include format when html is true' do
         req = klass.new('abc', :html => true, :to => 'es')
-        req.params[:format].should == 'html'
+        expect(req.params[:format]).to eq('html')
       end
 
       it 'should include format when specified as text' do
         req = klass.new('abc', :format => 'text', :to => 'es')
-        req.params[:format].should == 'text'
+        expect(req.params[:format]).to eq('text')
       end
 
       it 'should use default params' do
         EasyTranslate.api_key = 'abc'
         request = klass.new('abc', :to => 'es')
-        request.params[:key].should == 'abc'
+        expect(request.params[:key]).to eq('abc')
       end
 
       it 'should allow overriding of params' do
         EasyTranslate.api_key = 'abc'
         request = klass.new('abc', :key => 'def', :to => 'es')
-        request.params[:key].should == 'def'
+        expect(request.params[:key]).to eq('def')
       end
 
       it 'should allow overriding of key as api_key' do
         EasyTranslate.api_key = 'abc'
         request = klass.new('abc', :api_key => 'def', :to => 'es')
-        request.params[:key].should == 'def'
-        request.params[:api_key].should be_nil
+        expect(request.params[:key]).to eq('def')
+        expect(request.params[:api_key]).to be_nil
       end
 
       it 'should be able to supply a language as a string' do
         request = klass.new('abc', :to => 'es')
-        request.params[:target].should == 'es'
+        expect(request.params[:target]).to eq('es')
       end
 
       it 'should be able to supply a language as a symbol' do
         request = klass.new('abc', :to => :es)
-        request.params[:target].should == 'es'
+        expect(request.params[:target]).to eq('es')
       end
 
       it 'should be able to supply a language as a word' do
         request = klass.new('abc', :to => 'spanish')
-        request.params[:target].should == 'es'
+        expect(request.params[:target]).to eq('es')
       end
 
       it 'should be able to supply a language as a word symbol' do
         request = klass.new('abc', :to => :spanish)
-        request.params[:target].should == 'es'
+        expect(request.params[:target]).to eq('es')
       end
 
       it 'should fall back when a word is not in the lookup' do
         request = klass.new('abc', :to => 'zzz')
-        request.params[:target].should == 'zzz'
+        expect(request.params[:target]).to eq('zzz')
       end
 
     end
@@ -148,17 +148,17 @@ describe EasyTranslate::Translation do
 
       it 'should be true if multiple are passed' do
         request = klass.new(['abc', 'def'], :to => 'es')
-        request.should be_multi
+        expect(request).to be_multi
       end
 
       it 'should be true if one is passed, but in an array' do
         request = klass.new(['abc'], :to => 'es')
-        request.should be_multi
+        expect(request).to be_multi
       end
 
       it 'should be true if one is passed as a string' do
         request = klass.new('abc', :to => 'es')
-        request.should_not be_multi
+        expect(request).not_to be_multi
       end
 
     end
@@ -167,17 +167,17 @@ describe EasyTranslate::Translation do
 
       it 'should insert the texts into the body' do
         request = klass.new(['abc', 'def'], :to => 'es')
-        request.body.should == 'q=abc&q=def'
+        expect(request.body).to eq('q=abc&q=def')
       end
 
       it 'should insert the text into the body' do
         request = klass.new('abc', :to => 'es')
-        request.body.should == 'q=abc'
+        expect(request.body).to eq('q=abc')
       end
 
       it 'should URI escape the body' do
         request = klass.new('%', :to => 'es')
-        request.body.should == 'q=%25'
+        expect(request.body).to eq('q=%25')
       end
 
     end

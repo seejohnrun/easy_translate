@@ -1,7 +1,7 @@
 require File.expand_path('lib/easy_translate/version', File.dirname(__FILE__))
 
 spec = Gem::Specification.new do |s|
-  s.name = 'easy_translate'  
+  s.name = 'easy_translate'
   s.author = 'John Crepezzi'
   s.add_development_dependency('rspec')
   s.add_dependency('json')
@@ -17,5 +17,5 @@ spec = Gem::Specification.new do |s|
   s.summary = 'Google Translate API Wrapper for Ruby'
   s.test_files = Dir.glob('spec/*.rb')
   s.version = EasyTranslate::VERSION
+  s.license = 'MIT'
 end
-

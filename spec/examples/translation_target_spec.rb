@@ -7,31 +7,31 @@ describe klass do
 
     it 'should include target in params if given' do
       req = klass.new('en')
-      req.params[:target].should == 'en'
+      expect(req.params[:target]).to eq('en')
     end
 
     it 'should not include target by default' do
       req = klass.new
-      req.params[:target].should be_nil
+      expect(req.params[:target]).to be_nil
     end
 
     it 'should use default key' do
       EasyTranslate.api_key = 'abc'
       request = klass.new('en')
-      request.params[:key].should == 'abc'
+      expect(request.params[:key]).to eq('abc')
     end
 
     it 'should allow overriding of params' do
       EasyTranslate.api_key = 'abc'
       request = klass.new('en', :key => 'def')
-      request.params[:key].should == 'def'
+      expect(request.params[:key]).to eq('def')
     end
 
     it 'should allow overriding of key as api_key' do
       EasyTranslate.api_key = 'abc'
       request = klass.new('abc', :api_key => 'def', :to => 'es')
-      request.params[:key].should == 'def'
-      request.params[:api_key].should be_nil
+      expect(request.params[:key]).to eq('def')
+      expect(request.params[:api_key]).to be_nil
     end
 
   end

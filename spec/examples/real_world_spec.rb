@@ -15,17 +15,17 @@ describe EasyTranslate do
 
     it 'should be able to translate one' do
       res = EasyTranslate.translate 'hello world', :to => :spanish
-      expect(res).to eq('hola mundo')
+      expect(res).to eq('Hola Mundo')
     end
 
     it 'should be able to translate multiple' do
       res = EasyTranslate.translate ['hello world', 'i love you'], :to => :spanish
-      expect(res).to eq(['hola mundo', 'te amo'])
+      expect(res).to eq(['Hola Mundo', 'te amo'])
     end
 
     it 'should work concurrently' do
       res = EasyTranslate.translate ['hello world', 'i love you', 'good morning'], :to => :spanish, :concurrency => 2, :batch_size => 1
-      expect(res).to eq(['hola mundo', 'te amo', '¡buenos días'])
+      expect(res).to eq(['Hola Mundo', 'te amo', 'Buenos días'])
     end
   end
 
@@ -36,7 +36,7 @@ describe EasyTranslate do
       expect(res).to eq('en')
     end
 
-    it 'should be able to translate one' do
+    it 'should be able to detect multiple' do
       res = EasyTranslate.detect ['hello world', 'hola mundo']
       expect(res).to eq(['en', 'es'])
     end

@@ -36,7 +36,7 @@ describe EasyTranslate do
       expect(res).to eq('en')
     end
 
-    it 'should be able to translate one' do
+    it 'should be able to detect multiple' do
       res = EasyTranslate.detect ['hello world', 'hola mundo']
       expect(res).to eq(['en', 'es'])
     end

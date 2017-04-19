@@ -52,7 +52,7 @@ module EasyTranslate
     private
 
     def uri
-      @uri ||= URI.parse("https://www.googleapis.com#{path}?#{param_s}")
+      @uri ||= URI.parse("https://translation.googleapis.com#{path}?#{param_s}")
     end
 
     def http

@@ -75,7 +75,20 @@ EasyTranslate.detect "This is definitely English!", :confidence => true # => { :
 EasyTranslate.detect ['This is definitely English!', '我姓譚'], :confidence => true # => [{ :language => 'en', :confidence => 0.77272725 }, { :language => 'zh-CN', :confidence => 1.0 }]
 ```
 
+## Explicitly select translation model (NMT, PBMT)
+Google Translate now replaces Phrase Based Machine Translation (PBMT) with Neural Machine Translation (NMT) automatically where possible. If you prefer PBMT or need to compare the results, you can use the `model:` parameter with either `nmt` or `base` to force the model selection:
 
+```ruby
+EasyTranslate.translate("El cuervo americano es un ave con plumas negras iridiscentes sobre todo su cuerpo.", from: "es", to: "en", model: "nmt")
+ # => "The American Raven is a bird with iridescent black feathers over its entire body."
+ ```
+
+ ```ruby
+EasyTranslate.translate("El cuervo americano es un ave con plumas negras iridiscentes sobre todo su cuerpo.", from: "es", to: "en", model: "base")
+# => "The American crow is a bird with iridescent black feathers over her body."
+```
+
+See https://research.googleblog.com/2016/09/a-neural-network-for-machine.html for more background
 
 ## Google Translate supports HTML (default) and plain text formats
 
@@ -119,7 +132,7 @@ EasyTranslate.translations_available('zh-CN')
 
 ### EasyTranslate in PHP
 
-[Kofel](https://github.com/Kofel) ported this library to PHP. 
+[Kofel](https://github.com/Kofel) ported this library to PHP.
 You can find the port [on GitHub](https://github.com/Kofel/EasyTranslate)
 
 ---

@@ -1,7 +1,7 @@
 require File.expand_path('lib/easy_translate/version', File.dirname(__FILE__))
 
 spec = Gem::Specification.new do |s|
-  s.name = 'easy_translate'  
+  s.name = 'easy_translate'
   s.author = 'John Crepezzi'
   s.add_development_dependency('rspec')
   s.add_dependency 'thread'
@@ -18,4 +18,3 @@ spec = Gem::Specification.new do |s|
   s.version = EasyTranslate::VERSION
   s.license = 'MIT'
 end
-

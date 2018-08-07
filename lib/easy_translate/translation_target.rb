@@ -12,9 +12,13 @@ module EasyTranslate
     def translations_available(target = nil, options = {})
       request = TranslationTargetRequest.new(target, options)
       raw = request.perform_raw
-      JSON.parse(raw)['data']['languages'].map do |res|
+      languages = JSON.parse(raw)['data']['languages'].map do |res|
         res['language']
       end
+
+      languages.push('zh-CN') if !languages.index('zh').nil?
+
+      languages
     end
 
     class TranslationTargetRequest < EasyTranslate::Request

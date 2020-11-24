@@ -28,7 +28,7 @@ module EasyTranslate
     # @return [Hash] a hash of the base parameters for any request
     def params
       params = {}
-      params[:key] = EasyTranslate.api_key if EasyTranslate.api_key.present?
+      params[:key] = EasyTranslate.api_key if EasyTranslate.api_key
       params[:prettyPrint] = 'false' # eliminate unnecessary overhead
       params
     end
@@ -37,17 +37,21 @@ module EasyTranslate
     # @return [String] The response String
     def perform_raw
       # Construct the request
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request.add_field('Referer', EasyTranslate.referer)
-      request.add_field('X-HTTP-Method-Override', 'GET')
-      request.body = body
+      raw_request.add_field('Referer', EasyTranslate.referer)
+      raw_request.add_field('X-HTTP-Method-Override', 'GET')
+      raw_request.body = body
+
       # Fire and return
-      response = http.request(request)
+      response = http.request(raw_request)
       unless response.code == '200'
         err = JSON.parse(response.body)['error']['errors'].first['message']
         raise EasyTranslateException.new(err)
       end
       response.body
+    end
+
+    def raw_request
+      @raw_request ||= Net::HTTP::Post.new(uri.request_uri)
     end
 
     private

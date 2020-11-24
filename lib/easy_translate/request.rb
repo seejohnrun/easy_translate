@@ -37,7 +37,8 @@ module EasyTranslate
     # @return [String] The response String
     def perform_raw
       # Construct the request
-      request = Net::HTTP::Post.new(uri.request_uri, { 'Referer' => EasyTranslate.referer })
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request.add_field('Referer', EasyTranslate.referer)
       request.add_field('X-HTTP-Method-Override', 'GET')
       request.body = body
       # Fire and return

@@ -1,0 +1,6 @@
+*.swp
+*.swo
+*.gem
+coverage/*
+
+Gemfile.lock

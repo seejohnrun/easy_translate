@@ -152,7 +152,7 @@ https://github.com/seejohnrun/easy_translate/contributors
 
 (The MIT License)
 
-Copyright © 2010-2011 John Crepezzi
+Copyright © 2010-2018 John Crepezzi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the ‘Software’), to deal in

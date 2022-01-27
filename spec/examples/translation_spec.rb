@@ -29,6 +29,11 @@ describe EasyTranslate::Translation do
     expect(trans).to eq(%{Hallo ' & " Welt})
   end
 
+  it 'should detect simplified chinese as zh-CN' do
+    expect(EasyTranslate.translations_available.include?('zh-CN')).to eq(true)
+    expect(EasyTranslate.translations_available.include?('zh')).to eq(true)
+  end
+
   def fake_request(hash)
     expect(EasyTranslate::Translation::TranslationRequest).to receive(:new).and_return(OpenStruct.new(hash))
   end
@@ -37,7 +42,7 @@ describe EasyTranslate::Translation do
   describe klass do
 
     describe :path do
-      
+
       it 'should have a valid path' do
         request = klass.new('abc', :to => 'en')
         expect(request.path).not_to be_empty

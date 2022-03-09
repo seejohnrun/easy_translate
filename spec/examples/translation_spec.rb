@@ -29,9 +29,17 @@ describe EasyTranslate::Translation do
     expect(trans).to eq(%{Hallo ' & " Welt})
   end
 
-  it 'should detect simplified chinese as zh-CN' do
-    expect(EasyTranslate.translations_available.include?('zh-CN')).to eq(true)
-    expect(EasyTranslate.translations_available.include?('zh')).to eq(true)
+  context 'detecting availale language' do
+    before :each do
+      pending 'please provide an API_KEY for this suite' if ENV['API_KEY'].nil?
+
+      EasyTranslate.api_key = ENV['API_KEY']
+    end
+
+    it 'should detect simplified chinese as zh-CN' do
+      expect(EasyTranslate.translations_available.include?('zh-CN')).to eq(true)
+      expect(EasyTranslate.translations_available.include?('zh')).to eq(true)
+    end
   end
 
   def fake_request(hash)

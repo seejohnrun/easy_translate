@@ -42,14 +42,19 @@ module EasyTranslate
       request.body = body
       # Fire and return
       response = http.request(request)
-      unless response.code == '200'
-        err = JSON.parse(response.body)['error']['errors'].first['message']
-        raise EasyTranslateException.new(err)
-      end
+      raise_exception(response) unless response.code == '200'
       response.body
     end
 
     private
+
+    def raise_exception(response)
+      err = JSON.parse(response.body)['error']['errors'].first['message']
+    rescue JSON::ParserError => _e
+      err = "#{response.code} - #{response.message}"
+    ensure
+      raise EasyTranslateException.new(err)
+    end
 
     def uri
       @uri ||= URI.parse("https://translation.googleapis.com#{path}?#{param_s}")

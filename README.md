@@ -1,9 +1,11 @@
 ## EasyTranslate
 
-[![Build Status](https://secure.travis-ci.org/seejohnrun/easy_translate.png)](http://travis-ci.org/seejohnrun/easy_translate)
+<a href='https://github.com/seejohnrun/easy_translate/actions' target='_blank'><img src="https://github.com/seejohnrun/easy_translate/workflows/Test/badge.svg" style="max-width:100%;" height='21' style='border:0px;height:21px;' border='0' alt="CI Status"></a>
 
 This is a Ruby library for Google Translate that makes working with bulk calls,
 user_ips and access via API Key easy.
+
+Unlike the official google client, `easy_translate` does not have a dependency on the `grpc` gem. This is a huge advantage because `grpc` can be extremely difficult to install on some systems or configurations.
 
 ---
 

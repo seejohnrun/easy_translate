@@ -1,7 +1,7 @@
 name: Test
 on:
   push:
-    branches: ['*']
+    branches: [ main ]
   pull_request:
     branches: ['*']
 
@@ -31,11 +31,7 @@ jobs:
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: "${{ matrix.ruby }}"
-
-    - name: Bundle
-      run: |
-        gem install bundler
-        bundle install
+        bundler-cache: true
 
     - name: Run tests
       run: |

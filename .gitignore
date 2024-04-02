@@ -1,6 +1,7 @@
 *.swp
 *.swo
 *.gem
+.ruby-version
 coverage/*
 
 Gemfile.lock

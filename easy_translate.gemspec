@@ -4,6 +4,7 @@ spec = Gem::Specification.new do |s|
   s.name = 'easy_translate'
   s.author = 'John Crepezzi'
   s.add_development_dependency('rspec')
+  s.add_development_dependency('rake')
   s.add_dependency 'thread'
   s.add_dependency 'thread_safe'
   s.description = 'easy_translate is a wrapper for the google translate API that makes sense programatically, and implements API keys'

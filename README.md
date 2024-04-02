@@ -5,7 +5,7 @@
 This is a Ruby library for Google Translate that makes working with bulk calls,
 user_ips and access via API Key easy.
 
-Unlike the official google client, `easy_translate` does not have a dependency on the `grpc` gem. This is a huge advantage because `grpc` can be extremely difficult to install on some systems or configurations.
+Unlike the official google client, `easy_translate` does not have a dependency on the `grpc` gem. This can be an advantage because `grpc` may be difficult to install on some systems or configurations.
 
 ---
 

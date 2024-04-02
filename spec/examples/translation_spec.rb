@@ -29,13 +29,11 @@ describe EasyTranslate::Translation do
     expect(trans).to eq(%{Hallo ' & " Welt})
   end
 
-  describe 'needs api key' do
+  context 'detecting availale language' do
     before :each do
-      if ENV['API_KEY']
-        EasyTranslate.api_key = ENV['API_KEY']
-      else
-        pending 'please provide an API_KEY for this suite'
-      end
+      pending 'please provide an API_KEY for this suite' if ENV['API_KEY'].nil?
+
+      EasyTranslate.api_key = ENV['API_KEY']
     end
 
     it 'should detect simplified chinese as zh-CN' do
